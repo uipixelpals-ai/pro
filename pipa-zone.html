@@ -6,6 +6,14 @@
     <title>PIPA Zone - PIXEL PALS</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Register local font - Symtext */
+        @font-face {
+            font-family: 'Symtext';
+            src: url('Symtext.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -35,8 +43,8 @@
             z-index: 100;
             display: flex;
             align-items: center;
-            width: 80vw;
-            max-width: 1400px;
+            width: 90vw;
+            max-width: 2332px;
             gap: 15px;
         }
 
@@ -61,61 +69,45 @@
         .navbar {
             display: flex;
             align-items: center;
-            justify-content: space-evenly;
+            justify-content: space-between;
             background: var(--white);
-            border-radius: 50px;
-            padding: 6px 10px;
+            border-radius: 118px;
+            padding: 0;
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
-            gap: 0;
             position: relative;
             flex: 1;
-            border: 3px solid var(--blue);
-            height: 50px;
+            height: 82px;
             box-sizing: border-box;
+            outline: 8px #1D47F5 solid;
+            overflow: hidden;
         }
 
-        .nav-item {
-            padding: 8px 0;
-            border-radius: 30px;
+        .nav-segment {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--black);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: color 0.3s ease;
+            font-size: 36px;
+            font-family: 'Symtext';
+            font-weight: 400;
+            color: #1D47F5;
+            text-transform: lowercase;
+            transition: background 0.3s ease, color 0.3s ease;
             position: relative;
             z-index: 2;
             white-space: nowrap;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: calc(100% / 6);
-            height: 100%;
+            cursor: pointer;
         }
 
-        .nav-item:hover {
-            color: var(--blue);
+        .nav-segment.active {
+            background: #1D47F5;
+            color: #D0FE54;
         }
 
-        .nav-item.active {
-            color: var(--white);
-        }
-
-        /* Animated background for active state */
-        .nav-indicator {
-            position: absolute;
-            top: -3px;
-            bottom: -3px;
-            left: 0;
-            background: var(--blue);
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            z-index: 1;
-            width: calc(100% / 6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .nav-segment:hover:not(.active) {
+            background: rgba(29, 71, 245, 0.1);
         }
 
         /* PIPA Zone Page */
@@ -253,18 +245,23 @@
             min-width: 100%;
             width: 100%;
             height: 100%;
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
             position: absolute;
             left: 0;
             top: 0;
-            z-index: 1;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         .carousel-slide.active {
             display: flex;
             z-index: 2;
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .draw-section {
@@ -291,28 +288,106 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(6, 1fr);
-            gap: 5px;
+            gap: 8px;
             padding: 10px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 10px;
+            background: #FFFFFF;
+            border-radius: 16px;
             border: 2px solid #1D47F5;
         }
 
         .color-swatch {
-            width: 25px;
-            height: 25px;
-            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
             cursor: pointer;
             border: 2px solid transparent;
             transition: transform 0.2s;
         }
 
         .color-swatch:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
         .color-swatch.active {
             border-color: #000;
+            box-shadow: 0 0 0 2px #1D47F5;
+        }
+
+        /* Extra Controls - Universal Picker & Stroke */
+        .extra-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+            padding: 12px;
+            background: #FFFFFF;
+            border-radius: 16px;
+            border: 2px solid #1D47F5;
+            min-width: 80px;
+        }
+
+        .extra-control-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .extra-control-label {
+            font-size: 8px;
+            font-weight: bold;
+            color: #1D47F5;
+            text-transform: uppercase;
+            font-family: 'Space Mono', monospace;
+        }
+
+        #universalPicker {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid #1D47F5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #universalPicker:hover {
+            transform: scale(1.1);
+        }
+
+        #strokeBlock {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 3px solid #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            background: #FFFFFF;
+            color: #000;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-family: 'Space Mono', monospace;
+        }
+
+        #strokeBlock:hover {
+            transform: scale(1.1);
+        }
+
+        #strokeBlock.active {
+            border-color: #D0FE54;
+            box-shadow: 0 0 10px rgba(208, 254, 84, 0.7);
+            background: #D0FE54;
+            color: #000;
+        }
+
+        #colorPickerInput {
+            display: none;
         }
 
         /* Whiteboard - Center */
@@ -320,10 +395,12 @@
             position: relative;
             width: 60%;
             max-width: 600px;
+            height: 400px;
         }
 
         .whiteboard-bg {
             width: 100%;
+            height: 100%;
             display: block;
         }
 
@@ -427,15 +504,6 @@
         .save-btn:hover {
             transform: scale(1.05);
             background: #1539c7;
-        }
-
-        .draw-section-content {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
         }
 
         .draw-section-content {
@@ -840,41 +908,6 @@
             position: relative;
             overflow: hidden;
         }
-            max-height: 50px;
-            min-width: 30px;
-            min-height: 30px;
-            cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            z-index: 10;
-        }
-
-        .btn-nav:hover {
-            transform: scale(1.1);
-            filter: brightness(1.2);
-        }
-
-        .btn-nav:active {
-            transform: scale(0.95);
-        }
-
-        .button-container {
-            display: flex;
-            gap: 6vw;
-            align-items: center;
-            justify-content: center;
-            margin-top: -0.5vh;
-        }
-
-        .profile-container {
-            width: 18vw;
-            height: 18vw;
-            max-width: 200px;
-            max-height: 200px;
-            min-width: 120px;
-            min-height: 120px;
-            position: relative;
-            overflow: hidden;
-        }
 
         .profile-img {
             position: absolute;
@@ -920,13 +953,12 @@
     <div class="navbar-container">
         <a href="index.html"><img src="PAGE_1/Icon-home.png" alt="Home" class="home-icon"></a>
         <nav class="navbar">
-            <div class="nav-indicator" id="navIndicator"></div>
-            <a href="#" class="nav-item active" data-nav="profile">PROFILE</a>
-            <a href="#" class="nav-item" data-nav="draw">DRAW</a>
-            <a href="#" class="nav-item" data-nav="stopmotion">STOPMOTION</a>
-            <a href="#" class="nav-item" data-nav="gallery">GALLERY</a>
-            <a href="#" class="nav-item" data-nav="vote">VOTE</a>
-            <a href="#" class="nav-item" data-nav="leaderboard">LEADERBOARD</a>
+            <a href="#" class="nav-segment active" data-nav="profile">profile</a>
+            <a href="#" class="nav-segment" data-nav="draw">draw</a>
+            <a href="#" class="nav-segment" data-nav="stopmotion">stopmotion</a>
+            <a href="#" class="nav-segment" data-nav="gallery">gallery</a>
+            <a href="#" class="nav-segment" data-nav="vote">VOTE</a>
+            <a href="#" class="nav-segment" data-nav="leaderboard">LEADERBOARD</a>
         </nav>
     </div>
 
@@ -990,28 +1022,44 @@
                     <div class="draw-layout">
                         <!-- Color Palette - Left (3x6 vertical) -->
                         <div class="color-palette" id="colorPalette">
-                            <!-- Row 1: Neutrals & Structure -->
-                            <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
-                            <div class="color-swatch" style="background: #F5F5F5;" data-color="#F5F5F5"></div>
-                            <div class="color-swatch" style="background: #9CA3AF;" data-color="#9CA3AF"></div>
-                            <div class="color-swatch" style="background: #374151;" data-color="#374151"></div>
-                            <div class="color-swatch active" style="background: #000000;" data-color="#000000"></div>
-                            <div class="color-swatch" style="background: #1E293B;" data-color="#1E293B"></div>
-                            <!-- Row 2: Brand & Primary Accents -->
-                            <div class="color-swatch" style="background: #1D47F5;" data-color="#1D47F5"></div>
-                            <div class="color-swatch" style="background: #D0FE54;" data-color="#D0FE54"></div>
-                            <div class="color-swatch" style="background: #06B6D4;" data-color="#06B6D4"></div>
-                            <div class="color-swatch" style="background: #8B5CF6;" data-color="#8B5CF6"></div>
-                            <div class="color-swatch" style="background: #EC4899;" data-color="#EC4899"></div>
-                            <div class="color-swatch" style="background: #1E3A8A;" data-color="#1E3A8A"></div>
-                            <!-- Row 3: Semantic & Functional -->
-                            <div class="color-swatch" style="background: #22C55E;" data-color="#22C55E"></div>
+                            <!-- Row 1: Reds -->
+                            <div class="color-swatch" style="background: #B91C1C;" data-color="#B91C1C"></div>
+                            <div class="color-swatch" style="background: #DC2626;" data-color="#DC2626"></div>
+                            <div class="color-swatch" style="background: #FCA5A5;" data-color="#FCA5A5"></div>
+                            <!-- Row 2: Greens -->
+                            <div class="color-swatch" style="background: #166534;" data-color="#166534"></div>
+                            <div class="color-swatch" style="background: #16A34A;" data-color="#16A34A"></div>
+                            <div class="color-swatch" style="background: #A7F3D0;" data-color="#A7F3D0"></div>
+                            <!-- Row 3: Yellows -->
+                            <div class="color-swatch" style="background: #B45309;" data-color="#B45309"></div>
                             <div class="color-swatch" style="background: #FBBF24;" data-color="#FBBF24"></div>
-                            <div class="color-swatch" style="background: #EF4444;" data-color="#EF4444"></div>
-                            <div class="color-swatch" style="background: #60A5FA;" data-color="#60A5FA"></div>
-                            <div class="color-swatch" style="background: #FDF2F2;" data-color="#FDF2F2"></div>
-                            <div class="color-swatch" style="background: #134E4A;" data-color="#134E4A"></div>
+                            <div class="color-swatch" style="background: #FEF3C7;" data-color="#FEF3C7"></div>
+                            <!-- Row 4: Purples -->
+                            <div class="color-swatch" style="background: #4F46E5;" data-color="#4F46E5"></div>
+                            <div class="color-swatch" style="background: #7C3AED;" data-color="#7C3AED"></div>
+                            <div class="color-swatch" style="background: #C4B5FD;" data-color="#C4B5FD"></div>
+                            <!-- Row 5: Blues -->
+                            <div class="color-swatch" style="background: #1D4ED8;" data-color="#1D4ED8"></div>
+                            <div class="color-swatch" style="background: #2563EB;" data-color="#2563EB"></div>
+                            <div class="color-swatch" style="background: #BFDBFE;" data-color="#BFDBFE"></div>
+                            <!-- Row 6: Magentas/Pinks -->
+                            <div class="color-swatch" style="background: #9333EA;" data-color="#9333EA"></div>
+                            <div class="color-swatch" style="background: #EC4899;" data-color="#EC4899"></div>
+                            <div class="color-swatch" style="background: #F472B6;" data-color="#F472B6"></div>
                         </div>
+
+                        <!-- Extra Controls - Universal Picker & Stroke -->
+                        <div class="extra-controls">
+                            <div class="extra-control-item">
+                                <div class="extra-control-label">Universal</div>
+                                <div class="color-swatch" id="universalPicker" style="background: linear-gradient(135deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);" title="Double Click to Pick Any Color"></div>
+                            </div>
+                            <div class="extra-control-item">
+                                <div class="extra-control-label">Stroke</div>
+                                <div class="color-swatch" id="strokeBlock" style="background: #FFFFFF; border: 3px solid #000000;" title="Click to Apply Stroke">S</div>
+                            </div>
+                        </div>
+                        <input type="color" id="colorPickerInput">
 
                         <!-- Whiteboard - Center -->
                         <div class="whiteboard-container">
@@ -1152,28 +1200,8 @@
             showProfile(newIndex, 'prev');
         });
 
-        // Navbar Indicator Logic
-        const navItems = document.querySelectorAll('.nav-item');
-        const navIndicator = document.getElementById('navIndicator');
-        const navbar = document.querySelector('.navbar');
-
-        function updateIndicator(element) {
-            const navbarWidth = navbar.offsetWidth;
-            const indicatorWidth = navbarWidth / 6;
-            
-            // Calculate position based on index
-            const index = Array.from(navItems).indexOf(element);
-            const position = index * indicatorWidth;
-            
-            navIndicator.style.left = position + 'px';
-            navIndicator.style.width = indicatorWidth + 'px';
-        }
-
-        // Initialize indicator position
-        const activeItem = document.querySelector('.nav-item.active');
-        if (activeItem) {
-            setTimeout(() => updateIndicator(activeItem), 50);
-        }
+        // Navbar Active State Logic
+        const navItems = document.querySelectorAll('.nav-segment');
 
         navItems.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -1184,9 +1212,6 @@
                 
                 // Add active to clicked
                 item.classList.add('active');
-                
-                // Move indicator
-                updateIndicator(item);
             });
         });
 
@@ -1223,8 +1248,6 @@
 
         // Draw Section Transition
         const drawBoxes = document.querySelectorAll('.draw-box');
-        const profileSection = document.getElementById('profileSection');
-        const drawSection = document.getElementById('drawSection');
 
         // Carousel System
         const navOrder = ['profile', 'draw', 'stopmotion', 'gallery', 'vote', 'leaderboard'];
@@ -1236,9 +1259,6 @@
             isTransitioning = true;
 
             const slides = document.querySelectorAll('.carousel-slide');
-            const indicator = document.getElementById('navIndicator');
-            const navbar = document.querySelector('.navbar');
-            const indicatorWidth = navbar.offsetWidth / 6;
 
             // Deactivate current slide
             slides[currentSlideIndex].classList.remove('active');
@@ -1246,16 +1266,18 @@
             // Activate target slide
             slides[targetIndex].classList.add('active');
 
-            // Update navbar indicator
-            indicator.style.left = (targetIndex * indicatorWidth) + 'px';
-
             // Update current index
             currentSlideIndex = targetIndex;
 
             // Update active states
-            document.querySelectorAll('.nav-item').forEach((item, i) => {
+            document.querySelectorAll('.nav-segment').forEach((item, i) => {
                 item.classList.toggle('active', i === targetIndex);
             });
+
+            // Initialize canvas when going to draw section
+            if (targetIndex === 1) {
+                setTimeout(initCanvas, 100);
+            }
 
             // Update draw box indicators when going to profile
             if (targetIndex === 0) {
@@ -1281,7 +1303,7 @@
         });
 
         // Navbar click handlers
-        document.querySelectorAll('.nav-item').forEach(item => {
+        document.querySelectorAll('.nav-segment').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
                 const nav = e.target.dataset.nav;
@@ -1379,45 +1401,6 @@
                 toast.style.opacity = '0';
             }, 2500);
         }
-            } else {
-                toast = document.getElementById('toast');
-                if (!toast) {
-                    toast = document.createElement('div');
-                    toast.id = 'toast';
-                    toast.className = 'toast';
-                    document.body.appendChild(toast);
-                }
-            }
-            toast.textContent = message;
-            toast.style.background = isSuccess ? '#22C55E' : '#EF4444';
-            toast.style.color = '#FFFFFF';
-            toast.style.transform = 'translate(-50%, -50%) scale(1)';
-            toast.style.opacity = '1';
-            
-            setTimeout(() => {
-                toast.style.transform = 'translate(-50%, -50%) scale(0)';
-                toast.style.opacity = '0';
-            }, 2500);
-        }
-                toast = document.getElementById('toast');
-                if (!toast) {
-                    toast = document.createElement('div');
-                    toast.id = 'toast';
-                    toast.className = 'toast';
-                    document.body.appendChild(toast);
-                }
-            }
-            toast.textContent = message;
-            toast.style.background = isSuccess ? '#22C55E' : '#1E293B';
-            toast.style.color = 'white';
-            toast.style.transform = 'translateX(0)';
-            toast.style.opacity = '1';
-            
-            setTimeout(() => {
-                toast.style.transform = isDrawSection ? 'translateX(120%)' : 'translateX(120%)';
-                toast.style.opacity = '0';
-            }, 2500);
-        }
 
         // Mouse events
         canvas.addEventListener('mousedown', (e) => {
@@ -1471,14 +1454,34 @@
         }
 
         function drawLine(x1, y1, x2, y2) {
-            ctx.beginPath();
-            ctx.strokeStyle = currentTool === 'eraser' ? '#FFFFFF' : currentColor;
-            ctx.lineWidth = currentTool === 'eraser' ? brushSize * 3 : brushSize;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.stroke();
+            if (strokeMode) {
+                // Draw stroke (outline) first with larger width
+                ctx.beginPath();
+                ctx.strokeStyle = strokeColor;
+                ctx.lineWidth = parseInt(brushSize) + 6;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+                
+                // Then draw fill color on top
+                ctx.beginPath();
+                ctx.strokeStyle = currentColor;
+                ctx.lineWidth = parseInt(brushSize);
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            } else {
+                ctx.beginPath();
+                ctx.strokeStyle = currentTool === 'eraser' ? '#FFFFFF' : currentColor;
+                ctx.lineWidth = currentTool === 'eraser' ? parseInt(brushSize) * 3 : parseInt(brushSize);
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
         }
 
         // Color palette
@@ -1490,6 +1493,40 @@
                 currentTool = 'brush';
                 updateToolButtons();
             });
+        });
+
+        // Universal Color Picker - Double Click
+        let strokeMode = false;
+        let strokeColor = '#000000';
+
+        document.getElementById('universalPicker').addEventListener('dblclick', () => {
+            const colorInput = document.getElementById('colorPickerInput');
+            colorInput.click();
+        });
+
+        document.getElementById('colorPickerInput').addEventListener('input', (e) => {
+            currentColor = e.target.value;
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            currentTool = 'brush';
+            updateToolButtons();
+            showToast('Color picked: ' + currentColor, true, true);
+        });
+
+        // Stroke Block - Click to toggle stroke mode
+        document.getElementById('strokeBlock').addEventListener('click', () => {
+            strokeMode = !strokeMode;
+            const strokeBlock = document.getElementById('strokeBlock');
+            
+            if (strokeMode) {
+                strokeBlock.classList.add('active');
+                strokeBlock.textContent = 'ON';
+                strokeColor = currentColor;
+                showToast('Stroke Mode: ON - Color: ' + currentColor, true, true);
+            } else {
+                strokeBlock.classList.remove('active');
+                strokeBlock.textContent = 'S';
+                showToast('Stroke Mode: OFF', true, true);
+            }
         });
 
         // Tool buttons
@@ -1708,32 +1745,6 @@
             });
         }
 
-        // Load saved drawings on page load
-        window.addEventListener('load', () => {
-            for (let i = 1; i <= 3; i++) {
-                const savedDraw = localStorage.getItem('drawBox' + i);
-                if (savedDraw) {
-                    const drawBoxes = document.querySelectorAll('.draw-box');
-                    if (drawBoxes[i-1]) {
-                        drawBoxes[i-1].src = savedDraw;
-                    }
-                }
-            }
-            setTimeout(updateDrawBoxIndicators, 100);
-        });
-        
-        // Update draw box indicators on slide change
-        function updateDrawBoxIndicators() {
-            document.querySelectorAll('.draw-box').forEach((box, index) => {
-                const src = box.src;
-                if (src && !src.includes('draw-box.png')) {
-                    box.style.outline = '3px solid #D0FE54';
-                } else {
-                    box.style.outline = 'none';
-                }
-            });
-        }
-
         // Load saved drawings on page load & initialize
         window.addEventListener('load', () => {
             // Load saved drawings
@@ -1747,18 +1758,24 @@
                 }
             }
             
-            // Ensure draw slide is not active initially
-            const drawSlide = document.querySelector('.carousel-slide[data-slide="draw"]');
-            if (drawSlide) {
-                drawSlide.classList.remove('active');
-            }
-            
             // Update indicators
             setTimeout(updateDrawBoxIndicators, 100);
             
-            // Initialize canvas if needed
-            setTimeout(initCanvas, 300);
+            // Go to profile slide initially
+            goToSlide(0);
         });
+
+        // Update draw box indicators on slide change
+        function updateDrawBoxIndicators() {
+            document.querySelectorAll('.draw-box').forEach((box, index) => {
+                const src = box.src;
+                if (src && !src.includes('draw-box.png')) {
+                    box.style.outline = '3px solid #1D47F5';
+                } else {
+                    box.style.outline = 'none';
+                }
+            });
+        }
 
         function checkAndInitCanvas() {
             const drawSlide = document.querySelector('.carousel-slide[data-slide="draw"]');
@@ -1769,17 +1786,11 @@
         }
 
         // Check on navbar clicks
-        document.querySelectorAll('.nav-item').forEach(item => {
+        document.querySelectorAll('.nav-segment').forEach(item => {
             item.addEventListener('click', () => {
                 setTimeout(checkAndInitCanvas, 400);
             });
         });
-
-        // Initial check
-        checkAndInitCanvas();
-
-        // Initial setup for profile slide
-        goToSlide(0);
     </script>
 </body>
 </html>
