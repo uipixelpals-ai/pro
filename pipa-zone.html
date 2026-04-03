@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIPA Zone - PIXEL PALS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #1D47F5;
+            --lime: #D0FE54;
+            --black: #000000;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar-container {
+            position: fixed;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            width: 80vw;
+            max-width: 1400px;
+            gap: 15px;
+        }
+
+        .home-icon {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            background: var(--white);
+            padding: 8px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .home-icon:hover {
+            transform: scale(1.1);
+            filter: brightness(1.1);
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            background: var(--white);
+            border-radius: 50px;
+            padding: 6px 10px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+            gap: 0;
+            position: relative;
+            flex: 1;
+            border: 3px solid var(--blue);
+            height: 50px;
+            box-sizing: border-box;
+        }
+
+        .nav-item {
+            padding: 8px 0;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--black);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc(100% / 6);
+            height: 100%;
+        }
+
+        .nav-item:hover {
+            color: var(--blue);
+        }
+
+        .nav-item.active {
+            color: var(--white);
+        }
+
+        /* Animated background for active state */
+        .nav-indicator {
+            position: absolute;
+            top: -3px;
+            bottom: -3px;
+            left: 0;
+            background: var(--blue);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            z-index: 1;
+            width: calc(100% / 6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* PIPA Zone Page */
+        .pipa-zone-page {
+            width: 100vw;
+            height: 100vh;
+            background-image: url('PAGE_1/BG.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .element-bg-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            max-width: 1400px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1;
+            gap: 20px;
+        }
+
+        .element-bg1 {
+            display: block;
+            height: 60vh;
+            max-height: 550px;
+            width: auto;
+            object-fit: contain;
+            object-position: bottom;
+        }
+
+        .element-bg1-wrapper {
+            position: relative;
+            display: inline-block;
+            height: 60vh;
+            max-height: 550px;
+        }
+
+        .element-bg2 {
+            display: block;
+            height: 60vh;
+            max-height: 550px;
+            width: auto;
+            object-fit: contain;
+            object-position: bottom;
+        }
+
+        .element-bg2-wrapper {
+            position: relative;
+            display: inline-block;
+            height: 60vh;
+            max-height: 550px;
+        }
+
+        .draw-boxes-container {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            width: 95%;
+            max-width: 450px;
+        }
+
+        .draw-box {
+            width: 32%;
+            max-width: 140px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .stopmotion-boxes-container {
+            position: absolute;
+            top: 77%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            width: 95%;
+            max-width: 450px;
+        }
+
+        .stopmotion-box {
+            width: 32%;
+            max-width: 140px;
+            height: auto;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .stopmotion-box:hover {
+            transform: scale(1.05);
+        }
+
+        /* Section Transitions - Carousel Style */
+        .pipa-zone-page {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-image: url('PAGE_1/BG.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .carousel-container {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            max-width: 1400px;
+            height: 100vh;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+
+        .carousel-slide.active {
+            display: flex;
+            z-index: 2;
+        }
+
+        .draw-section {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .draw-layout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Color Palette - Left */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 5px;
+            padding: 10px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            border: 2px solid #1D47F5;
+        }
+
+        .color-swatch {
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+
+        .color-swatch.active {
+            border-color: #000;
+        }
+
+        /* Whiteboard - Center */
+        .whiteboard-container {
+            position: relative;
+            width: 60%;
+            max-width: 600px;
+        }
+
+        .whiteboard-bg {
+            width: 100%;
+            display: block;
+        }
+
+        #drawingCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+
+        /* Tools - Right */
+        .tools-panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
+            padding: 10px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            border: 2px solid #1D47F5;
+        }
+
+        .tool-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            background: #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .tool-btn:hover {
+            background: #e0e0e0;
+            transform: scale(1.05);
+        }
+
+        .tool-btn.active {
+            background: #1D47F5;
+            color: white;
+        }
+
+        /* Bottom Panel */
+        .bottom-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            border: 2px solid #1D47F5;
+        }
+
+        .brush-size-panel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            border: 2px solid #1D47F5;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .brush-size-panel label {
+            font-size: 12px;
+            color: #1D47F5;
+            font-weight: bold;
+        }
+
+        .brush-size-slider {
+            width: 100px;
+            accent-color: #1D47F5;
+        }
+
+        .brush-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #000;
+        }
+
+        .save-btn {
+            padding: 10px 30px;
+            background: #1D47F5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .save-btn:hover {
+            transform: scale(1.05);
+            background: #1539c7;
+        }
+
+        .draw-section-content {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        }
+
+        .draw-section-content {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Avatar Selection */
+        .avatar-selection {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: -2px;
+            z-index: 10;
+        }
+
+        .type-bg {
+            position: absolute;
+            top: 86%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            max-width: 200px;
+            height: auto;
+            object-fit: contain;
+            z-index: 10;
+        }
+
+        .name-input-container {
+            position: absolute;
+            top: 86%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 55%;
+            max-width: 180px;
+            z-index: 11;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .name-input {
+            width: 100%;
+            height: 25px;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            color: #fff;
+            outline: none;
+        }
+
+        .name-input::placeholder {
+            color: #fff;
+        }
+
+        .name-input:disabled {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .confirm-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 25px 35px;
+            border-radius: 15px;
+            border: 3px solid #1D47F5;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            z-index: 1000;
+            text-align: center;
+            min-width: 250px;
+        }
+
+        .confirm-popup.show {
+            display: block;
+        }
+
+        .confirm-popup p {
+            margin: 0 0 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .confirm-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .confirm-btn.yes {
+            background: #D0FE54;
+            color: #000;
+        }
+
+        .confirm-btn.no {
+            background: #1D47F5;
+            color: #fff;
+        }
+
+        /* Save Popup */
+        .save-popup {
+            display: none;
+            position: fixed;
+            top: 35%;
+            right: 5%;
+            transform: translate(0, 0);
+            background: #FFFFFF;
+            padding: 30px 40px;
+            border-radius: 20px;
+            border: 3px solid #1D47F5;
+            box-shadow: 0 8px 40px rgba(29, 71, 245, 0.3);
+            z-index: 1000;
+            text-align: center;
+            min-width: 380px;
+            position: relative;
+        }
+
+        .save-popup.show {
+            display: block;
+        }
+
+        .save-popup .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: #1E293B;
+            color: white;
+            border-radius: 50%;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        .save-popup .close-popup:hover {
+            background: #EF4444;
+        }
+
+        .save-popup h3 {
+            margin: 0 0 25px 0;
+            font-size: 18px;
+            color: #1E293B;
+            font-weight: bold;
+        }
+
+        .save-slots {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .save-slot {
+            width: 90px;
+            height: 90px;
+            border: 3px solid #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #F5F5F5;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .save-slot:hover:not(.disabled) {
+            border-color: #1D47F5;
+            transform: scale(1.05);
+        }
+
+        .save-slot.selected {
+            border-color: #D0FE54;
+            box-shadow: 0 0 15px rgba(208, 254, 84, 0.6);
+            background: #D0FE54;
+        }
+
+        .save-slot.disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        .save-slot.disabled:hover {
+            transform: none;
+            box-shadow: none;
+            background: #F5F5F5;
+            border-color: #ccc;
+        }
+
+        .save-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .save-slot .slot-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1D47F5;
+        }
+
+        .save-slot.has-image .slot-number {
+            display: none;
+        }
+
+        .save-slot .delete-slot {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .save-slot.has-image .delete-slot {
+            display: flex;
+        }
+
+        .save-slot .delete-slot:hover {
+            background: #DC2626;
+            transform: scale(1.1);
+        }
+
+        /* Confirmation buttons */
+        .save-confirm {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .save-confirm.show {
+            display: block;
+        }
+
+        .save-confirm p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #1E293B;
+        }
+
+        .save-confirm-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .save-confirm-btns button {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .save-confirm-btns .yes-btn {
+            background: #D0FE54;
+            color: #000;
+        }
+
+        .save-confirm-btns .yes-btn:hover {
+            background: #b8e445;
+            transform: scale(1.05);
+        }
+
+        .save-confirm-btns .no-btn {
+            background: #1E293B;
+            color: #fff;
+        }
+
+        .save-confirm-btns .no-btn:hover {
+            background: #0f172a;
+            transform: scale(1.05);
+        }
+
+        .save-popup .cancel-btn {
+            display: none;
+            margin-top: 20px;
+            padding: 12px 40px;
+            background: transparent;
+            color: #1E293B;
+            border: 2px solid #1E293B;
+            border-radius: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .save-popup .cancel-btn.show {
+            display: inline-block;
+        }
+
+        .save-popup .cancel-btn:hover {
+            background: #1E293B;
+            color: white;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            left: auto;
+            transform: translateX(120%);
+            background: #1E293B;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: #22C55E;
+        }
+
+        .btn-nav {
+            width: 2vw;
+            height: 2vw;
+            max-width: 25px;
+            max-height: 25px;
+            min-width: 15px;
+            min-height: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            z-index: 10;
+        }
+
+        .btn-nav:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .btn-nav:active {
+            transform: scale(0.95);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 2vw;
+            align-items: center;
+            justify-content: center;
+            margin-top: -0.3vh;
+        }
+
+        .profile-container {
+            width: 12vw;
+            height: 12vw;
+            max-width: 120px;
+            max-height: 120px;
+            min-width: 80px;
+            min-height: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+            max-height: 50px;
+            min-width: 30px;
+            min-height: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            z-index: 10;
+        }
+
+        .btn-nav:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .btn-nav:active {
+            transform: scale(0.95);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 6vw;
+            align-items: center;
+            justify-content: center;
+            margin-top: -0.5vh;
+        }
+
+        .profile-container {
+            width: 18vw;
+            height: 18vw;
+            max-width: 200px;
+            max-height: 200px;
+            min-width: 120px;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .profile-img.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .profile-img.slide-out-left {
+            transform: translateX(-120%);
+            opacity: 0;
+        }
+
+        .profile-img.slide-out-right {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
+        .profile-img.slide-in-right {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+
+        .profile-img.slide-in-left {
+            transform: translateX(-120%);
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar-container">
+        <a href="index.html"><img src="PAGE_1/Icon-home.png" alt="Home" class="home-icon"></a>
+        <nav class="navbar">
+            <div class="nav-indicator" id="navIndicator"></div>
+            <a href="#" class="nav-item active" data-nav="profile">PROFILE</a>
+            <a href="#" class="nav-item" data-nav="draw">DRAW</a>
+            <a href="#" class="nav-item" data-nav="stopmotion">STOPMOTION</a>
+            <a href="#" class="nav-item" data-nav="gallery">GALLERY</a>
+            <a href="#" class="nav-item" data-nav="vote">VOTE</a>
+            <a href="#" class="nav-item" data-nav="leaderboard">LEADERBOARD</a>
+        </nav>
+    </div>
+
+    <!-- PIPA Zone Page - Carousel System -->
+    <section class="pipa-zone-page">
+        <div class="carousel-container" id="carouselContainer">
+            <!-- Slide 0: PROFILE -->
+            <div class="carousel-slide active" data-slide="profile" style="position: absolute; width: 100%; height: 100%;">
+                <div class="element-bg-container">
+                    <div class="element-bg1-wrapper">
+                        <img src="PAGE_1/element-bg1.png" alt="Element Background Left" class="element-bg1">
+                        <img src="PAGE_1/type-bg.png" alt="Type Background" class="type-bg">
+                        <div class="name-input-container">
+                            <input type="text" class="name-input" id="nameInput" placeholder="Type here" maxlength="15">
+                        </div>
+                        <div class="confirm-popup" id="confirmPopup">
+                            <p>Confirm name?</p>
+                            <div class="confirm-buttons">
+                                <button class="confirm-btn yes" id="confirmYes">Yes</button>
+                                <button class="confirm-btn no" id="confirmNo">No</button>
+                            </div>
+                        </div>
+                        <div class="toast" id="toast"></div>
+                        <div class="avatar-selection">
+                            <div class="profile-container">
+                                <img src="PAGE_1/profil 1.png" alt="Profile 1" class="profile-img active" data-index="0">
+                                <img src="PAGE_1/profil 2.png" alt="Profile 2" class="profile-img" data-index="1">
+                                <img src="PAGE_1/profil 3.png" alt="Profile 3" class="profile-img" data-index="2">
+                                <img src="PAGE_1/profil 4.png" alt="Profile 4" class="profile-img" data-index="3">
+                                <img src="PAGE_1/profil 5.png" alt="Profile 5" class="profile-img" data-index="4">
+                                <img src="PAGE_1/profil 6.png" alt="Profile 6" class="profile-img" data-index="5">
+                                <img src="PAGE_1/profil 7.png" alt="Profile 7" class="profile-img" data-index="6">
+                                <img src="PAGE_1/profil 8.png" alt="Profile 8" class="profile-img" data-index="7">
+                                <img src="PAGE_1/profil 9.png" alt="Profile 9" class="profile-img" data-index="8">
+                            </div>
+                            <div class="button-container">
+                                <img src="PAGE_1/Next-L-Button.png" alt="Previous" class="btn-nav" id="btnPrev">
+                                <img src="PAGE_1/Next-R-Button.png" alt="Next" class="btn-nav" id="btnNext">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="element-bg2-wrapper">
+                        <img src="PAGE_1/element-bg2.png" alt="Element Background Right" class="element-bg2">
+                        <div class="draw-boxes-container">
+                            <img src="PAGE_1/draw-box.png" alt="Draw Box 1" class="draw-box" data-box="draw1">
+                            <img src="PAGE_1/draw-box.png" alt="Draw Box 2" class="draw-box" data-box="draw2">
+                            <img src="PAGE_1/draw-box.png" alt="Draw Box 3" class="draw-box" data-box="draw3">
+                        </div>
+                        <div class="stopmotion-boxes-container">
+                            <img src="PAGE_1/stopmotion-box.png" alt="Stopmotion Box 1" class="stopmotion-box">
+                            <img src="PAGE_1/stopmotion-box.png" alt="Stopmotion Box 2" class="stopmotion-box">
+                            <img src="PAGE_1/stopmotion-box.png" alt="Stopmotion Box 3" class="stopmotion-box">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 1: DRAW -->
+            <div class="carousel-slide" data-slide="draw" style="position: absolute; width: 100%; height: 100%;">
+                <div class="draw-section">
+                    <div class="draw-layout">
+                        <!-- Color Palette - Left (3x6 vertical) -->
+                        <div class="color-palette" id="colorPalette">
+                            <!-- Row 1: Neutrals & Structure -->
+                            <div class="color-swatch" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
+                            <div class="color-swatch" style="background: #F5F5F5;" data-color="#F5F5F5"></div>
+                            <div class="color-swatch" style="background: #9CA3AF;" data-color="#9CA3AF"></div>
+                            <div class="color-swatch" style="background: #374151;" data-color="#374151"></div>
+                            <div class="color-swatch active" style="background: #000000;" data-color="#000000"></div>
+                            <div class="color-swatch" style="background: #1E293B;" data-color="#1E293B"></div>
+                            <!-- Row 2: Brand & Primary Accents -->
+                            <div class="color-swatch" style="background: #1D47F5;" data-color="#1D47F5"></div>
+                            <div class="color-swatch" style="background: #D0FE54;" data-color="#D0FE54"></div>
+                            <div class="color-swatch" style="background: #06B6D4;" data-color="#06B6D4"></div>
+                            <div class="color-swatch" style="background: #8B5CF6;" data-color="#8B5CF6"></div>
+                            <div class="color-swatch" style="background: #EC4899;" data-color="#EC4899"></div>
+                            <div class="color-swatch" style="background: #1E3A8A;" data-color="#1E3A8A"></div>
+                            <!-- Row 3: Semantic & Functional -->
+                            <div class="color-swatch" style="background: #22C55E;" data-color="#22C55E"></div>
+                            <div class="color-swatch" style="background: #FBBF24;" data-color="#FBBF24"></div>
+                            <div class="color-swatch" style="background: #EF4444;" data-color="#EF4444"></div>
+                            <div class="color-swatch" style="background: #60A5FA;" data-color="#60A5FA"></div>
+                            <div class="color-swatch" style="background: #FDF2F2;" data-color="#FDF2F2"></div>
+                            <div class="color-swatch" style="background: #134E4A;" data-color="#134E4A"></div>
+                        </div>
+
+                        <!-- Whiteboard - Center -->
+                        <div class="whiteboard-container">
+                            <img src="PAGE_1/whiteboard.png" alt="Whiteboard" class="whiteboard-bg">
+                            <canvas id="drawingCanvas"></canvas>
+                        </div>
+
+                        <!-- Tools - Right (2x4) -->
+                        <div class="tools-panel">
+                            <button class="tool-btn active" id="brushTool" title="Brush">🖌️</button>
+                            <button class="tool-btn" id="eraserTool" title="Eraser">🧹</button>
+                            <button class="tool-btn" id="shapeTool" title="Shape">⚪</button>
+                            <button class="tool-btn" id="textTool" title="Text">T</button>
+                            <button class="tool-btn" id="pickerTool" title="Color Picker">🎨</button>
+                            <button class="tool-btn" id="fillTool" title="Fill">🪣</button>
+                            <button class="tool-btn" id="undoTool" title="Undo">↩️</button>
+                            <button class="tool-btn" id="redoTool" title="Redo">↪️</button>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Panel -->
+                    <div class="bottom-panel">
+                        <div class="brush-size-panel">
+                            <label>Size:</label>
+                            <input type="range" class="brush-size-slider" id="brushSize" min="1" max="50" value="5">
+                            <div class="brush-preview" id="brushPreview"></div>
+                        </div>
+                        <button class="save-btn" id="saveBtn">SAVE</button>
+                    </div>
+                    <div class="toast" id="toastDraw" style="position: fixed; top: 30px; right: 30px; z-index: 2000;"></div>
+                </div>
+            </div>
+
+            <!-- Slide 2: STOPMOTION -->
+            <div class="carousel-slide" data-slide="stopmotion" style="position: absolute; width: 100%; height: 100%;">
+                <div class="draw-section">
+                    <div class="draw-section-content">
+                        <p style="font-size: 20px; color: white;">STOPMOTION PAGE COMING SOON</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: GALLERY -->
+            <div class="carousel-slide" data-slide="gallery" style="position: absolute; width: 100%; height: 100%;">
+                <div class="draw-section">
+                    <div class="draw-section-content">
+                        <p style="font-size: 20px; color: white;">GALLERY PAGE COMING SOON</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: VOTE -->
+            <div class="carousel-slide" data-slide="vote" style="position: absolute; width: 100%; height: 100%;">
+                <div class="draw-section">
+                    <div class="draw-section-content">
+                        <p style="font-size: 20px; color: white;">VOTE PAGE COMING SOON</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: LEADERBOARD -->
+            <div class="carousel-slide" data-slide="leaderboard" style="position: absolute; width: 100%; height: 100%;">
+                <div class="draw-section">
+                    <div class="draw-section-content">
+                        <p style="font-size: 20px; color: white;">LEADERBOARD PAGE COMING SOON</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const profiles = document.querySelectorAll('.profile-img');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        let currentIndex = 0;
+        let isAnimating = false;
+
+        function showProfile(newIndex, direction) {
+            if (isAnimating || newIndex === currentIndex) return;
+            isAnimating = true;
+
+            const currentProfile = profiles[currentIndex];
+            const newProfile = profiles[newIndex];
+
+            // Remove all classes first
+            profiles.forEach(p => {
+                p.classList.remove('active', 'slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right');
+            });
+
+            // Set new profile at starting position (outside)
+            if (direction === 'next') {
+                // Current goes left, new comes from right
+                newProfile.style.transform = 'translateX(120%)';
+                newProfile.style.opacity = '0';
+                newProfile.style.visibility = 'visible';
+                
+                // Force reflow
+                void newProfile.offsetWidth;
+
+                // Animate
+                currentProfile.classList.add('slide-out-left');
+                newProfile.style.transform = 'translateX(0)';
+                newProfile.style.opacity = '1';
+            } else {
+                // Current goes right, new comes from left
+                newProfile.style.transform = 'translateX(-120%)';
+                newProfile.style.opacity = '0';
+                newProfile.style.visibility = 'visible';
+                
+                // Force reflow
+                void newProfile.offsetWidth;
+
+                // Animate
+                currentProfile.classList.add('slide-out-right');
+                newProfile.style.transform = 'translateX(0)';
+                newProfile.style.opacity = '1';
+            }
+
+            currentProfile.classList.remove('active');
+            currentIndex = newIndex;
+
+            setTimeout(() => {
+                currentProfile.style.visibility = 'hidden';
+                currentProfile.style.transform = '';
+                currentProfile.style.opacity = '';
+                isAnimating = false;
+            }, 400);
+        }
+
+        btnNext.addEventListener('click', () => {
+            const newIndex = (currentIndex + 1) % profiles.length;
+            showProfile(newIndex, 'next');
+        });
+
+        btnPrev.addEventListener('click', () => {
+            const newIndex = (currentIndex - 1 + profiles.length) % profiles.length;
+            showProfile(newIndex, 'prev');
+        });
+
+        // Navbar Indicator Logic
+        const navItems = document.querySelectorAll('.nav-item');
+        const navIndicator = document.getElementById('navIndicator');
+        const navbar = document.querySelector('.navbar');
+
+        function updateIndicator(element) {
+            const navbarWidth = navbar.offsetWidth;
+            const indicatorWidth = navbarWidth / 6;
+            
+            // Calculate position based on index
+            const index = Array.from(navItems).indexOf(element);
+            const position = index * indicatorWidth;
+            
+            navIndicator.style.left = position + 'px';
+            navIndicator.style.width = indicatorWidth + 'px';
+        }
+
+        // Initialize indicator position
+        const activeItem = document.querySelector('.nav-item.active');
+        if (activeItem) {
+            setTimeout(() => updateIndicator(activeItem), 50);
+        }
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active from all
+                navItems.forEach(n => n.classList.remove('active'));
+                
+                // Add active to clicked
+                item.classList.add('active');
+                
+                // Move indicator
+                updateIndicator(item);
+            });
+        });
+
+        // Name Input Logic
+        const nameInput = document.getElementById('nameInput');
+        const confirmPopup = document.getElementById('confirmPopup');
+        const confirmYes = document.getElementById('confirmYes');
+        const confirmNo = document.getElementById('confirmNo');
+
+        nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && nameInput.value.trim() !== '') {
+                confirmPopup.classList.add('show');
+            }
+        });
+
+        nameInput.addEventListener('blur', () => {
+            if (nameInput.value.trim() !== '') {
+                confirmPopup.classList.add('show');
+            }
+        });
+
+        confirmYes.addEventListener('click', () => {
+            nameInput.disabled = true;
+            nameInput.placeholder = nameInput.value.trim();
+            nameInput.value = '';
+            confirmPopup.classList.remove('show');
+        });
+
+        confirmNo.addEventListener('click', () => {
+            nameInput.value = '';
+            nameInput.focus();
+            confirmPopup.classList.remove('show');
+        });
+
+        // Draw Section Transition
+        const drawBoxes = document.querySelectorAll('.draw-box');
+        const profileSection = document.getElementById('profileSection');
+        const drawSection = document.getElementById('drawSection');
+
+        // Carousel System
+        const navOrder = ['profile', 'draw', 'stopmotion', 'gallery', 'vote', 'leaderboard'];
+        let currentSlideIndex = 0;
+        let isTransitioning = false;
+
+        function goToSlide(targetIndex) {
+            if (isTransitioning || targetIndex === currentSlideIndex) return;
+            isTransitioning = true;
+
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicator = document.getElementById('navIndicator');
+            const navbar = document.querySelector('.navbar');
+            const indicatorWidth = navbar.offsetWidth / 6;
+
+            // Deactivate current slide
+            slides[currentSlideIndex].classList.remove('active');
+
+            // Activate target slide
+            slides[targetIndex].classList.add('active');
+
+            // Update navbar indicator
+            indicator.style.left = (targetIndex * indicatorWidth) + 'px';
+
+            // Update current index
+            currentSlideIndex = targetIndex;
+
+            // Update active states
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                item.classList.toggle('active', i === targetIndex);
+            });
+
+            // Update draw box indicators when going to profile
+            if (targetIndex === 0) {
+                setTimeout(updateDrawBoxIndicators, 350);
+            }
+
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 300);
+        }
+
+        function goToSlideByNav(navName) {
+            const targetIndex = navOrder.indexOf(navName);
+            if (targetIndex === -1) return;
+            goToSlide(targetIndex);
+        }
+
+        // Draw boxes click handler
+        drawBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                goToSlideByNav('draw');
+            });
+        });
+
+        // Navbar click handlers
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const nav = e.target.dataset.nav;
+                goToSlideByNav(nav);
+            });
+        });
+
+        // Drawing Canvas Functionality
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let currentTool = 'brush';
+        let currentColor = '#000000';
+        let brushSize = 5;
+        let lastX = 0;
+        let lastY = 0;
+        let history = [];
+        let historyStep = -1;
+
+        // Initialize canvas size when slide becomes active
+        function initCanvas() {
+            const container = canvas.parentElement;
+            if (!container) {
+                console.log('Canvas container not found');
+                return;
+            }
+            
+            // Always initialize to get current size
+            canvas.width = container.offsetWidth || 600;
+            canvas.height = container.offsetHeight || 400;
+            ctx.fillStyle = 'transparent';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            saveState();
+            console.log('Canvas initialized:', canvas.width, 'x', canvas.height);
+        }
+
+        function saveState() {
+            historyStep++;
+            if (historyStep < history.length) {
+                history = history.slice(0, historyStep);
+            }
+            history.push(canvas.toDataURL());
+        }
+
+        function undo() {
+            if (historyStep > 0) {
+                historyStep--;
+                restoreState();
+            }
+        }
+
+        function redo() {
+            if (historyStep < history.length - 1) {
+                historyStep++;
+                restoreState();
+            }
+        }
+
+        function restoreState() {
+            const img = new Image();
+            img.onload = function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+            };
+            img.src = history[historyStep];
+        }
+
+        function showToast(message, isSuccess = true, isDrawSection = false) {
+            let toast;
+            if (isDrawSection) {
+                toast = document.getElementById('toastDraw');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toastDraw';
+                    toast.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); padding: 20px 40px; border-radius: 16px; font-family: Space Mono, monospace; font-size: 16px; z-index: 99999; opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); pointer-events: auto; background: #FFFFFF; border: 3px solid #1D47F5; box-shadow: 0 10px 30px rgba(0,0,0,0.2);';
+                    document.body.appendChild(toast);
+                }
+            } else {
+                toast = document.getElementById('toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toast';
+                    toast.className = 'toast';
+                    document.body.appendChild(toast);
+                }
+            }
+            toast.textContent = message;
+            toast.style.background = isSuccess ? '#22C55E' : '#EF4444';
+            toast.style.color = '#FFFFFF';
+            toast.style.transform = 'translate(-50%, -50%) scale(1)';
+            toast.style.opacity = '1';
+            
+            setTimeout(() => {
+                toast.style.transform = 'translate(-50%, -50%) scale(0)';
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+            } else {
+                toast = document.getElementById('toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toast';
+                    toast.className = 'toast';
+                    document.body.appendChild(toast);
+                }
+            }
+            toast.textContent = message;
+            toast.style.background = isSuccess ? '#22C55E' : '#EF4444';
+            toast.style.color = '#FFFFFF';
+            toast.style.transform = 'translate(-50%, -50%) scale(1)';
+            toast.style.opacity = '1';
+            
+            setTimeout(() => {
+                toast.style.transform = 'translate(-50%, -50%) scale(0)';
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+                toast = document.getElementById('toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toast';
+                    toast.className = 'toast';
+                    document.body.appendChild(toast);
+                }
+            }
+            toast.textContent = message;
+            toast.style.background = isSuccess ? '#22C55E' : '#1E293B';
+            toast.style.color = 'white';
+            toast.style.transform = 'translateX(0)';
+            toast.style.opacity = '1';
+            
+            setTimeout(() => {
+                toast.style.transform = isDrawSection ? 'translateX(120%)' : 'translateX(120%)';
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+
+        // Mouse events
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', () => {
+            if (isDrawing) {
+                isDrawing = false;
+                saveState();
+            }
+        });
+        canvas.addEventListener('mouseout', () => isDrawing = false);
+
+        // Touch events
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            isDrawing = true;
+            [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            drawLine(lastX, lastY, x, y);
+            [lastX, lastY] = [x, y];
+        });
+
+        canvas.addEventListener('touchend', () => {
+            if (isDrawing) {
+                isDrawing = false;
+                saveState();
+            }
+        });
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.offsetX;
+            const y = e.offsetY;
+            drawLine(lastX, lastY, x, y);
+            [lastX, lastY] = [x, y];
+        }
+
+        function drawLine(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.strokeStyle = currentTool === 'eraser' ? '#FFFFFF' : currentColor;
+            ctx.lineWidth = currentTool === 'eraser' ? brushSize * 3 : brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        // Color palette
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.addEventListener('click', () => {
+                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                swatch.classList.add('active');
+                currentColor = swatch.dataset.color;
+                currentTool = 'brush';
+                updateToolButtons();
+            });
+        });
+
+        // Tool buttons
+        function updateToolButtons() {
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(currentTool + 'Tool').classList.add('active');
+        }
+
+        document.getElementById('brushTool').addEventListener('click', () => {
+            currentTool = 'brush';
+            updateToolButtons();
+        });
+
+        document.getElementById('eraserTool').addEventListener('click', () => {
+            currentTool = 'eraser';
+            updateToolButtons();
+        });
+
+        // Shape tool
+        let shapeType = 'circle';
+        document.getElementById('shapeTool').addEventListener('click', () => {
+            if (currentTool === 'shape') {
+                // Cycle through shapes
+                if (shapeType === 'circle') shapeType = 'rectangle';
+                else if (shapeType === 'rectangle') shapeType = 'line';
+                else shapeType = 'circle';
+            } else {
+                currentTool = 'shape';
+                shapeType = 'circle';
+            }
+            updateToolButtons();
+        });
+
+        // Text tool
+        let isAddingText = false;
+        document.getElementById('textTool').addEventListener('click', () => {
+            currentTool = 'text';
+            isAddingText = true;
+            updateToolButtons();
+            canvas.style.cursor = 'text';
+        });
+
+        canvas.addEventListener('click', (e) => {
+            if (currentTool === 'text' && isAddingText) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const text = prompt('Enter text:');
+                if (text) {
+                    ctx.font = `${brushSize * 4}px Arial`;
+                    ctx.fillStyle = currentColor;
+                    ctx.fillText(text, x, y);
+                    saveState();
+                }
+                isAddingText = false;
+                canvas.style.cursor = 'crosshair';
+            }
+            
+            // Color picker tool
+            if (currentTool === 'picker') {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const pixel = ctx.getImageData(x, y, 1, 1).data;
+                currentColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+                
+                // Update color swatch
+                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                updateToolButtons();
+            }
+        });
+
+        // Fill (bucket) tool
+        document.getElementById('fillTool').addEventListener('click', () => {
+            currentTool = 'fill';
+            updateToolButtons();
+            
+            // Simple flood fill - fills entire canvas
+            ctx.fillStyle = currentColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            saveState();
+        });
+
+        // Color picker button
+        document.getElementById('pickerTool').addEventListener('click', () => {
+            currentTool = 'picker';
+            updateToolButtons();
+            canvas.style.cursor = 'copy';
+        });
+
+        document.getElementById('undoTool').addEventListener('click', undo);
+        document.getElementById('redoTool').addEventListener('click', redo);
+
+        // Brush size
+        const brushSizeSlider = document.getElementById('brushSize');
+        const brushPreview = document.getElementById('brushPreview');
+
+        brushSizeSlider.addEventListener('input', () => {
+            brushSize = brushSizeSlider.value;
+            brushPreview.style.width = brushSize + 'px';
+            brushPreview.style.height = brushSize + 'px';
+        });
+
+        // Initialize brush preview
+        brushPreview.style.width = brushSize + 'px';
+        brushPreview.style.height = brushSize + 'px';
+
+        // Save button - auto save to first empty slot
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            // Ensure canvas is initialized
+            if (canvas.width === 0 || canvas.height === 0) {
+                initCanvas();
+                setTimeout(() => performSave(), 100);
+            } else {
+                performSave();
+            }
+        });
+
+        function performSave() {
+            // Create composite image with whiteboard background
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width || 600;
+            tempCanvas.height = canvas.height || 400;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // Draw white background first
+            tempCtx.fillStyle = '#FFFFFF';
+            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            
+            // Draw the user's drawing on top
+            tempCtx.drawImage(canvas, 0, 0);
+            
+            const dataURL = tempCanvas.toDataURL('image/png');
+            console.log('Save - Canvas size:', canvas.width, 'x', canvas.height);
+            console.log('Save - DataURL length:', dataURL.length);
+            
+            const drawBoxes = document.querySelectorAll('.draw-box');
+            
+            // Find first empty slot
+            let targetSlot = -1;
+            for (let i = 0; i < 3; i++) {
+                const currentSrc = drawBoxes[i].src;
+                const isEmpty = !currentSrc || currentSrc.includes('draw-box.png');
+                if (isEmpty) {
+                    targetSlot = i;
+                    break;
+                }
+            }
+            
+            if (targetSlot === -1) {
+                showToast('All draw-box slots are full! Delete one first.', false, true);
+                return;
+            }
+            
+            // Save to the slot
+            drawBoxes[targetSlot].src = dataURL;
+            localStorage.setItem('drawBox' + (targetSlot + 1), dataURL);
+            
+            showToast('Drawing saved to Slot ' + (targetSlot + 1) + '!', true, true);
+            updateDrawBoxIndicators();
+        }
+
+        // Handle draw box click for delete in profile
+        document.querySelectorAll('.draw-box').forEach((box, index) => {
+            box.style.cursor = 'pointer';
+            
+            box.addEventListener('click', () => {
+                const currentSrc = box.src;
+                const hasDrawing = currentSrc && !currentSrc.includes('draw-box.png');
+                
+                if (hasDrawing) {
+                    // Show delete confirmation popup
+                    const deleteConfirm = document.getElementById('deleteConfirm');
+                    if (!deleteConfirm) {
+                        createDeleteConfirmPopup();
+                    }
+                    
+                    document.getElementById('deleteSlotNum').textContent = index + 1;
+                    deleteSlotIndex = index;
+                    document.getElementById('deleteConfirm').classList.add('show');
+                }
+            });
+        });
+
+        let deleteSlotIndex = -1;
+
+        function createDeleteConfirmPopup() {
+            const popup = document.createElement('div');
+            popup.id = 'deleteConfirm';
+            popup.className = 'save-popup';
+            popup.innerHTML = `
+                <button class="close-popup" onclick="document.getElementById('deleteConfirm').classList.remove('show')">×</button>
+                <h3>Delete Drawing?</h3>
+                <p>Slot <span id="deleteSlotNum"></span></p>
+                <div class="save-confirm-btns">
+                    <button class="yes-btn" id="confirmDeleteYes">Yes</button>
+                    <button class="no-btn" id="confirmDeleteNo">No</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+            
+            document.getElementById('confirmDeleteYes').addEventListener('click', () => {
+                if (deleteSlotIndex >= 0) {
+                    const drawBoxes = document.querySelectorAll('.draw-box');
+                    drawBoxes[deleteSlotIndex].src = 'PAGE_1/draw-box.png';
+                    localStorage.removeItem('drawBox' + (deleteSlotIndex + 1));
+                    updateDrawBoxIndicators();
+                    document.getElementById('deleteConfirm').classList.remove('show');
+                    showToast('Slot ' + (deleteSlotIndex + 1) + ' deleted!');
+                }
+            });
+            
+            document.getElementById('confirmDeleteNo').addEventListener('click', () => {
+                document.getElementById('deleteConfirm').classList.remove('show');
+            });
+        }
+
+        // Load saved drawings on page load
+        window.addEventListener('load', () => {
+            for (let i = 1; i <= 3; i++) {
+                const savedDraw = localStorage.getItem('drawBox' + i);
+                if (savedDraw) {
+                    const drawBoxes = document.querySelectorAll('.draw-box');
+                    if (drawBoxes[i-1]) {
+                        drawBoxes[i-1].src = savedDraw;
+                    }
+                }
+            }
+            setTimeout(updateDrawBoxIndicators, 100);
+        });
+        
+        // Update draw box indicators on slide change
+        function updateDrawBoxIndicators() {
+            document.querySelectorAll('.draw-box').forEach((box, index) => {
+                const src = box.src;
+                if (src && !src.includes('draw-box.png')) {
+                    box.style.outline = '3px solid #D0FE54';
+                } else {
+                    box.style.outline = 'none';
+                }
+            });
+        }
+
+        // Load saved drawings on page load & initialize
+        window.addEventListener('load', () => {
+            // Load saved drawings
+            for (let i = 1; i <= 3; i++) {
+                const savedDraw = localStorage.getItem('drawBox' + i);
+                if (savedDraw) {
+                    const drawBoxes = document.querySelectorAll('.draw-box');
+                    if (drawBoxes[i-1]) {
+                        drawBoxes[i-1].src = savedDraw;
+                    }
+                }
+            }
+            
+            // Ensure draw slide is not active initially
+            const drawSlide = document.querySelector('.carousel-slide[data-slide="draw"]');
+            if (drawSlide) {
+                drawSlide.classList.remove('active');
+            }
+            
+            // Update indicators
+            setTimeout(updateDrawBoxIndicators, 100);
+            
+            // Initialize canvas if needed
+            setTimeout(initCanvas, 300);
+        });
+
+        function checkAndInitCanvas() {
+            const drawSlide = document.querySelector('.carousel-slide[data-slide="draw"]');
+            if (drawSlide && drawSlide.classList.contains('active')) {
+                console.log('Draw slide is active, initializing canvas...');
+                setTimeout(initCanvas, 200);
+            }
+        }
+
+        // Check on navbar clicks
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                setTimeout(checkAndInitCanvas, 400);
+            });
+        });
+
+        // Initial check
+        checkAndInitCanvas();
+
+        // Initial setup for profile slide
+        goToSlide(0);
+    </script>
+</body>
+</html>

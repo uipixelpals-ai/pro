@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXEL PALS - Media Produksi UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #1D47F5;
+            --lime: #D0FE54;
+            --black: #000000;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: var(--white);
+            color: var(--black);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            padding: 20px 0;
+            background: var(--white);
+            position: relative;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border-radius: 50px;
+            padding: 8px 10px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+            gap: 40px;
+            position: relative;
+            border: 3px solid var(--blue);
+        }
+
+        .logo {
+            display: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            position: relative;
+        }
+
+        .nav-item {
+            padding: 8px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--black);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            color: var(--blue);
+        }
+
+        .nav-item.active {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 40px 0;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .hero-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 2720.33 / 1584.61;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-cta {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+            width: 46.2%;
+            aspect-ratio: 1255.82 / 208.75;
+        }
+
+        .hero-cta img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-accent {
+            position: absolute;
+            top: 5%;
+            right: 8%;
+            width: 25px;
+            height: 25px;
+            background: var(--lime);
+            clip-path: polygon(0 0, 100% 0, 100% 25%, 65% 25%, 65% 50%, 100% 50%, 100% 75%, 65% 75%, 65% 100%, 35% 100%, 35% 75%, 0 75%, 0 50%, 35% 50%, 35% 25%);
+        }
+
+        /* Stream Section */
+        .stream {
+            padding: 60px 20px;
+            background: var(--white);
+            overflow: visible;
+        }
+
+        .stream-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 20px;
+            color: var(--blue);
+            margin-bottom: 100px;
+            text-align: center;
+        }
+
+        .stream-cards {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .stream-card {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 892.76 / 1001.36;
+            margin-top: 20px;
+        }
+
+        .stream-card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            z-index: 2;
+        }
+
+        .stream-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .stream-card-icon {
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70% !important;
+            max-width: 200px !important;
+            aspect-ratio: 1;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stream-card-icon img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain !important;
+        }
+
+        .icon-pen {
+            transform: scale(1.2);
+            transform-origin: center;
+        }
+
+        .stream-card-button {
+            position: absolute;
+            bottom: -38%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80% !important;
+            max-width: 350px !important;
+            aspect-ratio: 767.63 / 116.75;
+            z-index: 3;
+        }
+
+        .stream-card-button img {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        /* Testimonial Section */
+        .testimonial {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .testimonial-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 50px;
+            line-height: 1.5;
+            color: var(--black);
+        }
+
+        .testimonial-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .testimonial-card {
+            background: var(--lime);
+            color: var(--black);
+            padding: 30px;
+            border-radius: 20px;
+            width: 300px;
+        }
+
+        .testimonial-year {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-quote {
+            font-size: 14px;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--blue);
+            padding: 60px 0;
+            color: var(--white);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 48px;
+            color: var(--white);
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .contact-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 30px 0;
+            }
+
+            .hero-wrapper {
+                max-width: 100%;
+            }
+
+            .hero-cta {
+                width: 40%;
+            }
+
+            .hero-accent {
+                width: 20px;
+                height: 20px;
+                right: 30px;
+            }
+
+            .nav-container {
+                padding: 8px 20px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .nav-item {
+                padding: 6px 14px;
+                font-size: 12px;
+            }
+
+            .nav-item.active {
+                padding: 6px 14px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-logo {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">PIPA</div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-item active">Home</a>
+                    <a href="pipa-zone.html" class="nav-item">PIPA Zone</a>
+                    <a href="#" class="nav-item">About</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-wrapper">
+            <div class="hero-accent"></div>
+            <img src="images/hero-image.png" alt="Hero Image" class="hero-image">
+            <a href="#" class="hero-cta">
+                <img src="images/explore-now-button.png" alt="Explore Now">
+            </a>
+        </div>
+    </section>
+
+    <!-- Stream Section -->
+    <section class="stream">
+        <div class="container">
+            <h2 class="stream-title">STREAM PIXELPALS</h2>
+            <div class="stream-cards">
+                <!-- Animation Card -->
+                <div class="stream-card">
+                    <img src="images/desc-animation.png" alt="Animation Description" class="stream-card-bg">
+                    <img src="images/icon-animation.png" alt="Animation Icon" class="stream-card-icon">
+                    <img src="images/dp-button.png" alt="Portfolio Button" class="stream-card-button">
+                </div>
+
+                <!-- Visual Design Card -->
+                <div class="stream-card">
+                    <img src="images/desc-pen.png" alt="Visual Design Description" class="stream-card-bg">
+                    <img src="images/icon-pen.png" alt="Pen Icon" class="stream-card-icon icon-pen">
+                    <img src="images/da-button.png" alt="Portfolio Button" class="stream-card-button">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial">
+        <div class="container">
+            <h2 class="testimonial-title">APA KATA MEREKA<br>TENTANG PIXELPALS?</h2>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-year">SYEAAA'25</div>
+                    <p class="testimonial-quote">"Pengalaman di Media Produksi sangat berkesan. Kami belajar tidak hanya teknis, tapi juga kreativitas dan teamwork yang luar biasa."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-year">SYEAAA'24</div>
+                    <p class="testimonial-quote">"Dosen-dosen yang supportive dan kurikulum yang relevan dengan industri membuat kami siap menghadapi dunia kerja."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-year">SYEAAA'23</div>
+                    <p class="testimonial-quote">"Portfolio yang kami bangun selama kuliah sangat membantu kami mendapatkan pekerjaan di perusahaan ternama."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">PIPA</div>
+                <div class="footer-contact">
+                    <a href="mailto:pixelpals@ui.ac.id" class="contact-item">
+                        📧 pixelpals@ui.ac.id
+                    </a>
+                    <a href="https://instagram.com/pixelpals" class="contact-item">
+                        📷 @pixelpals
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
