@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PIXEL PALS - Media Produksi UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <style>
+        /* Register local font - Symtext */
+        @font-face {
+            font-family: 'Symtext';
+            src: url('Symtext.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -20,10 +30,35 @@
         }
 
         body {
-            font-family: 'Space Mono', monospace;
+            font-family: 'Inter', sans-serif;
             background-color: var(--white);
             color: var(--black);
             min-height: 100vh;
+            background-image: url('BACKGROUND-HOME.png');
+            background-size: auto 100vh;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            width: 100%;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .page-scale-wrapper {
+            zoom: 0.5;
+            -moz-transform: scale(0.5);
+            -moz-transform-origin: 0 0;
+        }
+
+        .snap-section {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 0;
+            box-sizing: border-box;
         }
 
         .container {
@@ -35,7 +70,7 @@
         /* Header & Navigation */
         header {
             padding: 20px 0;
-            background: var(--white);
+            background: transparent;
             position: relative;
             z-index: 100;
             display: flex;
@@ -45,7 +80,7 @@
         .nav-container {
             display: flex;
             align-items: center;
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 50px;
             padding: 8px 10px;
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
@@ -92,20 +127,22 @@
 
         /* Hero Section */
         .hero {
-            padding: 40px 0;
-            background: var(--white);
+            padding: 40px 40px;
+            background: transparent;
             position: relative;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: flex-end;
+            margin: 0 auto;
         }
 
         .hero-wrapper {
             position: relative;
             width: 100%;
-            max-width: 900px;
+            max-width: 2044px;
             aspect-ratio: 2720.33 / 1584.61;
+            margin: 0 auto;
         }
 
         .hero-image {
@@ -135,182 +172,334 @@
             position: absolute;
             top: 5%;
             right: 8%;
-            width: 25px;
-            height: 25px;
+            width: 30px;
+            height: 30px;
             background: var(--lime);
             clip-path: polygon(0 0, 100% 0, 100% 25%, 65% 25%, 65% 50%, 100% 50%, 100% 75%, 65% 75%, 65% 100%, 35% 100%, 35% 75%, 0 75%, 0 50%, 35% 50%, 35% 25%);
         }
 
-        /* Stream Section */
-        .stream {
+        /* Stream Section - Using inline styles */
+        .stream-section {
             padding: 60px 20px;
-            background: var(--white);
-            overflow: visible;
-        }
-
-        .stream-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 20px;
-            color: var(--blue);
-            margin-bottom: 100px;
             text-align: center;
-        }
-
-        .stream-cards {
-            display: flex;
-            gap: 60px;
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: flex-start;
-        }
-
-        .stream-card {
-            position: relative;
             width: 100%;
-            max-width: 300px;
-            aspect-ratio: 892.76 / 1001.36;
-            margin-top: 20px;
         }
 
-        .stream-card-bg {
+        .stream-title-custom {
+            color: #1D47F5;
+            font-size: 80px;
+            font-weight: bold;
+            font-family: 'Symtext', 'Space Mono', monospace;
+            margin-top: 80px;
+            margin-bottom: 120px;
+            letter-spacing: 2px;
+        }
+
+        .stream-design-container {
+            width: 100%;
+            overflow-x: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .testimonial-section {
+            padding: 60px 20px 200px 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .testimonial-title-custom {
+            color: #1D47F5;
+            font-size: 64px;
+            font-weight: bold;
+            font-family: 'Symtext', 'Space Mono', monospace;
+            margin-bottom: 80px;
+            letter-spacing: 2px;
+        }
+
+        /* Portfolio Popup */
+        .portfolio-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .portfolio-overlay.active {
+            display: flex;
+        }
+
+        .portfolio-popup {
+            width: 80%;
+            max-width: 1600px;
+            height: auto;
+            aspect-ratio: 2566.11 / 1560.15;
+            position: relative;
+            border-radius: 40px;
+            opacity: 0.95;
+            cursor: default;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .portfolio-popup.visual {
+            background: #D0FE54;
+        }
+
+        .portfolio-popup.animation {
+            background: #1D47F5;
+        }
+
+        .portfolio-popup img {
+            position: absolute;
+            object-fit: cover;
+            border-radius: 16px;
+            max-height: 80%;
+        }
+
+        /* Visual Design Popup Images */
+        .portfolio-popup.visual img:nth-child(1) {
+            width: 38%;
+            height: auto;
+            aspect-ratio: 1025.46 / 569.29;
+            left: 8%;
+            top: 12%;
+        }
+
+        .portfolio-popup.visual img:nth-child(2) {
+            width: 38%;
+            height: auto;
+            aspect-ratio: 1025.92 / 569.29;
+            left: 54%;
+            top: 12%;
+        }
+
+        .portfolio-popup.visual img:nth-child(3) {
+            width: 38%;
+            height: auto;
+            aspect-ratio: 1035.37 / 588.30;
+            left: 54%;
+            top: 55%;
+        }
+
+        .portfolio-popup.visual img:nth-child(4) {
+            width: 38%;
+            height: auto;
+            aspect-ratio: 1042.99 / 586.37;
+            left: 8%;
+            top: 55%;
+        }
+
+        /* Animation Popup Images */
+        .portfolio-popup.animation img:nth-child(1) {
+            width: 36%;
+            height: auto;
+            aspect-ratio: 959.81 / 718.05;
+            left: 10%;
+            top: 30%;
+        }
+
+        .portfolio-popup.animation img:nth-child(2) {
+            width: 39%;
+            height: auto;
+            aspect-ratio: 1026.08 / 725.24;
+            left: 55%;
+            top: 30%;
+        }
+
+        /* Video Containers */
+        .video-container {
+            position: absolute;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-container:nth-child(1) {
+            width: 36%;
+            height: auto;
+            aspect-ratio: 959.81 / 718.05;
+            left: 10%;
+            top: 30%;
+        }
+
+        .video-container:nth-child(2) {
+            width: 39%;
+            height: auto;
+            aspect-ratio: 1026.08 / 725.24;
+            left: 55%;
+            top: 30%;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            z-index: 2;
-        }
-
-        .stream-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .stream-card-icon {
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70% !important;
-            max-width: 200px !important;
-            aspect-ratio: 1;
-            z-index: 3;
+            background: rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
-        .stream-card-icon img {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: contain !important;
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            cursor: pointer;
+            font-size: 32px;
+            color: #1D47F5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease, background 0.2s ease;
         }
 
-        .icon-pen {
-            transform: scale(1.2);
-            transform-origin: center;
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: #fff;
         }
 
-        .stream-card-button {
-            position: absolute;
-            bottom: -38%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80% !important;
-            max-width: 350px !important;
-            aspect-ratio: 767.63 / 116.75;
-            z-index: 3;
+        /* Testimonial Slider */
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
         }
 
-        .stream-card-button img {
-            width: 100% !important;
-            height: auto !important;
+        .slider-track {
+            display: flex;
+            gap: 40px;
+            animation: scrollLeft 40s linear infinite;
+            width: max-content;
         }
 
-        /* Testimonial Section */
+        .slider-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .testimonial-card-slider {
+            width: 574px;
+            min-width: 574px;
+            height: 661px;
+            background: #D0FE54;
+            border-radius: 63px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'Symtext';
+            src: url('Symtext.ttf') format('truetype'); /* PASTIKAN FILE ADA DI FOLDER YANG SAMA */
+            font-weight: normal;
+            font-style: normal;
+        }
+
+/* Satukan menjadi satu deklarasi yang spesifik */
+        .testimonial-card-slider .card-name {
+            font-family: 'Symtext', 'Space Mono', monospace !important; /* Gunakan !important untuk memaksa */
+            text-align: center;
+            color: #1D47F5;
+            font-size: 54px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .testimonial-card-slider .card-quote {
+            text-align: justify;
+            color: #1D47F5;
+            font-size: 32px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .testimonial-title-custom {
+            color: #1D47F5;
+            font-size: 64px;
+            font-weight: bold;
+            font-family: 'Symtext', 'Space Mono', monospace;
+            margin-top: 80px;
+            margin-bottom: 120px;
+            letter-spacing: 2px;
+        }
+
+        /* Testimonial Section - Using custom design above */
         .testimonial {
-            padding: 80px 0;
-            background: var(--white);
+            display: none;
         }
 
         .testimonial-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 20px;
-            text-align: center;
-            margin-bottom: 50px;
-            line-height: 1.5;
-            color: var(--black);
+            display: none;
         }
 
         .testimonial-cards {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
+            display: none;
         }
 
         .testimonial-card {
-            background: var(--lime);
-            color: var(--black);
-            padding: 30px;
-            border-radius: 20px;
-            width: 300px;
+            display: none;
         }
 
         .testimonial-year {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 14px;
-            margin-bottom: 20px;
+            display: none;
         }
 
         .testimonial-quote {
-            font-size: 14px;
-            line-height: 1.8;
-            font-style: italic;
+            display: none;
         }
 
         /* Footer */
         footer {
-            background: var(--blue);
-            padding: 60px 0;
-            color: var(--white);
-        }
-
-        .footer-content {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 40px 20px;
+            background: #1D47F5;
+            border-radius: 88px 88px 0 0;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .footer-logo {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 48px;
-            color: var(--white);
-        }
-
-        .footer-contact {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: var(--white);
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .contact-icon {
-            width: 30px;
-            height: 30px;
         }
 
         /* Responsive */
@@ -328,9 +517,48 @@
             }
 
             .hero-accent {
-                width: 20px;
-                height: 20px;
-                right: 30px;
+                display: none;
+            }
+
+            .stream-title-custom {
+                font-size: 40px;
+            }
+
+            .stream-box {
+                min-width: 100%;
+                padding: 40px 20px;
+            }
+
+            .stream-box-label {
+                font-size: 32px;
+            }
+
+            .stream-box-desc {
+                font-size: 18px;
+            }
+
+            .testimonial-title-custom {
+                font-size: 32px;
+            }
+
+            .testimonial-card-custom {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+                min-height: 350px;
+            }
+
+            .testimonial-name {
+                font-size: 28px;
+            }
+
+            .testimonial-quote-custom {
+                font-size: 16px;
+            }
+
+            .footer-title {
+                font-size: 60px;
+                letter-spacing: 5px;
             }
 
             .nav-container {
@@ -362,22 +590,75 @@
     </style>
 </head>
 <body>
+    <div class="page-scale-wrapper">
+    <!-- Decorative Background Elements -->
+    <div style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: -1;">
+        <!-- Left side - Lime squares (top) -->
+        <div style="width: 95.37px; height: 95.37px; left: 104.65px; top: 179.08px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 95.37px; height: 95.37px; left: 200.02px; top: 271.87px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 95.37px; height: 95.37px; left: 295.38px; top: 179.08px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 95.37px; height: 95.37px; left: 390.75px; top: 95.37px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 95.37px; height: 95.37px; left: 200.02px; top: 0px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 95.37px; height: 95.37px; left: 200.02px; top: 95.37px; position: absolute; background: #D0FE54;"></div>
+        
+        <!-- Right side - Blue squares (top) -->
+        <div style="width: 128.22px; height: 128.22px; left: 2631.80px; top: 841.18px; position: absolute; background: #1D47F5;"></div>
+        <div style="width: 128.22px; height: 128.22px; left: 2760.02px; top: 965.93px; position: absolute; background: #1D47F5;"></div>
+        <div style="width: 128.22px; height: 128.22px; left: 2888.24px; top: 841.18px; position: absolute; background: #1D47F5;"></div>
+        <div style="width: 128.22px; height: 128.22px; left: 2760.02px; top: 728.63px; position: absolute; background: #1D47F5;"></div>
+        
+        <!-- Left side - Blue squares (middle) -->
+        <div style="width: 104.65px; height: 104.65px; left: 0px; top: 1455.19px; position: absolute; background: #1D47F5;"></div>
+        <div style="width: 104.65px; height: 104.65px; left: 0px; top: 1359.18px; position: absolute; background: #1D47F5;"></div>
+        <div style="width: 104.65px; height: 104.65px; left: 0px; top: 1664.49px; position: absolute; background: #1D47F5;"></div>
+        <div style="width: 104.65px; height: 104.65px; left: 104.65px; top: 1559.84px; position: absolute; background: #1D47F5;"></div>
+        
+        <!-- Center - Lime rotated rectangles -->
+        <div style="width: 85.49px; height: 85.30px; left: 1277.75px; top: 2166.39px; position: absolute; transform: rotate(-89deg); transform-origin: top left; background: #D0FE54;"></div>
+        <div style="width: 85.49px; height: 85.30px; left: 1199.51px; top: 2165.33px; position: absolute; transform: rotate(-89deg); transform-origin: top left; background: #D0FE54;"></div>
+        <div style="width: 85.49px; height: 85.30px; left: 1448.33px; top: 2168.71px; position: absolute; transform: rotate(-89deg); transform-origin: top left; background: #D0FE54;"></div>
+        <div style="width: 85.49px; height: 85.30px; left: 1364.20px; top: 2082.07px; position: absolute; transform: rotate(-89deg); transform-origin: top left; background: #D0FE54;"></div>
+        
+        <!-- Bottom left - Lime small squares -->
+        <div style="width: 54.76px; height: 54.76px; left: 237.50px; top: 3184.41px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 54.76px; height: 54.76px; left: 292.26px; top: 3237.70px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 54.76px; height: 54.76px; left: 347.02px; top: 3184.41px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 54.76px; height: 54.76px; left: 292.26px; top: 3136.34px; position: absolute; background: #D0FE54;"></div>
+        
+        <!-- Bottom right - Blue rotated rectangles -->
+        <div style="width: 57.56px; height: 78.79px; left: 2461.73px; top: 3457.60px; position: absolute; transform: rotate(-90deg); transform-origin: top left; background: #1D47F5;"></div>
+        <div style="width: 57.56px; height: 78.79px; left: 2534.01px; top: 3457.67px; position: absolute; transform: rotate(-90deg); transform-origin: top left; background: #1D47F5;"></div>
+        <div style="width: 57.56px; height: 78.79px; left: 2304.15px; top: 3457.45px; position: absolute; transform: rotate(-90deg); transform-origin: top left; background: #1D47F5;"></div>
+        <div style="width: 57.56px; height: 78.79px; left: 2382.99px; top: 3399.97px; position: absolute; transform: rotate(-90deg); transform-origin: top left; background: #1D47F5;"></div>
+        
+        <!-- Very bottom - Lime tiny squares -->
+        <div style="width: 39.19px; height: 39.19px; left: 1398.37px; top: 3295.84px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 39.19px; height: 39.19px; left: 1437.55px; top: 3333.97px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 39.19px; height: 39.19px; left: 1476.74px; top: 3295.84px; position: absolute; background: #D0FE54;"></div>
+        <div style="width: 39.19px; height: 39.19px; left: 1437.55px; top: 3261.44px; position: absolute; background: #D0FE54;"></div>
+    </div>
+
     <!-- Header & Navigation -->
-    <header>
-        <div class="container">
-            <div class="nav-container">
-                <div class="logo">PIPA</div>
-                <nav class="nav-menu">
-                    <a href="index.html" class="nav-item active">Home</a>
-                    <a href="pipa-zone.html" class="nav-item">PIPA Zone</a>
-                    <a href="#" class="nav-item">About</a>
-                </nav>
-            </div>
+    <header style="width: 100%; display: flex; justify-content: center; padding: 40px 60px 20px 60px; position: relative; z-index: 100;">
+        <div style="width: 100%; max-width: 1610px; height: 83px; position: relative; border-radius: 118.92px;">
+            <!-- Background with shadow -->
+            <div style="width: 100%; height: 83px; left: 0px; top: 0px; position: absolute; opacity: 0.70; background: #F7F6F6; box-shadow: 0px 0px 20.22px 4.76px rgba(0, 0, 0, 0.30); border-radius: 118.92px;"></div>
+            
+            <!-- Blue active tab -->
+            <a href="index.html" style="width: 521.42px; height: 83.05px; left: 0px; top: 0px; position: absolute; background: #1D47F5; border-radius: 118.92px; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                <span style="width: 375.03px; height: 41.34px; text-align: center; color: #F9F9F9; font-size: 42.81px; font-family: 'Symtext', 'Space Mono', monospace; font-weight: bold;">HOME</span>
+            </a>
+            
+            <!-- PIPA Zone -->
+            <a href="pipa-zone.html" style="width: 375.03px; height: 41.34px; left: 639.16px; top: 11.66px; position: absolute; text-align: center; color: #1D47F5; font-size: 42.81px; font-family: 'Symtext', 'Space Mono', monospace; font-weight: bold; text-decoration: none;">PIPA ZONE</a>
+            
+            <!-- About -->
+            <a href="about.html" style="width: 455.55px; height: 36.67px; left: 1131.92px; top: 13.99px; position: absolute; text-align: center; color: #1D47F5; font-size: 37.98px; font-family: 'Symtext', 'Space Mono', monospace; font-weight: bold; text-decoration: none;">ABOUT</a>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero snap-section">
         <div class="hero-wrapper">
             <div class="hero-accent"></div>
             <img src="images/hero-image.png" alt="Hero Image" class="hero-image">
@@ -387,64 +668,248 @@
         </div>
     </section>
 
-    <!-- Stream Section -->
-    <section class="stream">
-        <div class="container">
-            <h2 class="stream-title">STREAM PIXELPALS</h2>
-            <div class="stream-cards">
-                <!-- Animation Card -->
-                <div class="stream-card">
-                    <img src="images/desc-animation.png" alt="Animation Description" class="stream-card-bg">
-                    <img src="images/icon-animation.png" alt="Animation Icon" class="stream-card-icon">
-                    <img src="images/dp-button.png" alt="Portfolio Button" class="stream-card-button">
-                </div>
-
-                <!-- Visual Design Card -->
-                <div class="stream-card">
-                    <img src="images/desc-pen.png" alt="Visual Design Description" class="stream-card-bg">
-                    <img src="images/icon-pen.png" alt="Pen Icon" class="stream-card-icon icon-pen">
-                    <img src="images/da-button.png" alt="Portfolio Button" class="stream-card-button">
-                </div>
+    <!-- Stream Section - Custom Design -->
+    <section class="stream-section snap-section">
+        <h2 class="stream-title-custom">STREAM PIXELPALS</h2>
+        
+        <div class="stream-design-container">
+            <div style="width: 100%; max-width: 2044px; height: auto; aspect-ratio: 2044.37 / 1359.50; position: relative; margin: 0 auto;">
+                <!-- Left Blue Box -->
+                <div style="width: 892.76px; height: 1001.36px; left: 0px; top: 358.14px; position: absolute; background: #1D47F5; border-radius: 60.29px; max-width: 45%;"></div>
+                
+                <!-- Right Green Box -->
+                <div style="width: 892.76px; height: 1001.36px; left: 1151.61px; top: 357.94px; position: absolute; background: #D0FE54; border-radius: 60.29px; max-width: 45%;"></div>
+                
+                <!-- Visual Design Label -->
+                <div style="width: 654.97px; height: 132.82px; left: 1270.50px; top: 595.30px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 64.31px; font-family: 'Symtext', 'Space Mono', monospace; font-weight: bold; word-wrap: break-word;">VISUAL DESIGN</div>
+                
+                <!-- Animation Label -->
+                <div style="width: 571.54px; height: 132.82px; left: 159.99px; top: 595.30px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 64.31px; font-family: 'Symtext', 'Space Mono', monospace; font-weight: bold; word-wrap: break-word;">ANIMATION</div>
+                
+                <!-- Right Line -->
+                <div style="width: 853px; height: 190.97px; left: 1171.49px; top: 632.64px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 58.47px; font-family: 'Inter', sans-serif; font-weight: 700; word-wrap: break-word;">____________________________</div>
+                
+                <!-- Left Line -->
+                <div style="width: 853px; height: 190.97px; left: 19.26px; top: 641.09px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 58.47px; font-family: 'Inter', sans-serif; font-weight: 700; word-wrap: break-word;">____________________________</div>
+                
+                <!-- Left Description -->
+                <div style="width: 778.69px; height: 132.84px; left: 56.41px; top: 891.44px; position: absolute; text-align: justify; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 40.19px; font-family: 'Inter', sans-serif; font-weight: 700; word-wrap: break-word;">The animation stream focuses on creating moving visuals such as character animation, motion graphics, and 2D/3D animation to bring stories or messages to life</div>
+                
+                <!-- Right Description -->
+                <div style="width: 780.18px; height: 254.19px; left: 1207.90px; top: 817.18px; position: absolute; text-align: justify; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 38.86px; font-family: 'Inter', sans-serif; font-weight: 700; word-wrap: break-word;">graphic design stream focuses on static visuals such as posters, branding, layouts, typography, and color to emphasize aesthetics and clear communication</div>
+                
+                <!-- Right Button -->
+                <a href="#" class="portfolio-btn" id="btnVisualDesign" style="width: 767.63px; height: 116.75px; left: 1214.17px; top: 1125.16px; position: absolute; background: #1D47F5; border-radius: 200.97px; display: flex; align-items: center; justify-content: center; text-decoration: none; cursor: pointer;">
+                    <span style="text-align: center; color: #D0FE54; font-size: 40.19px; font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: 1.21px;">PORTOFOLIO</span>
+                </a>
+                
+                <!-- Left Circle -->
+                <div style="width: 584.77px; height: 584.77px; left: 154px; top: 0.14px; position: absolute; background: white; border-radius: 9999px; border: 30.15px #1D47F5 solid;"></div>
+                
+                <!-- Left Button -->
+                <a href="#" class="portfolio-btn" id="btnAnimation" style="width: 767.63px; height: 116.75px; left: 61.94px; top: 1125.16px; position: absolute; background: #D0FE54; border-radius: 200.97px; display: flex; align-items: center; justify-content: center; text-decoration: none; cursor: pointer;">
+                    <span style="text-align: center; color: #1D47F5; font-size: 40.19px; font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: 1.21px;">PORTOFOLIO</span>
+                </a>
+                
+                <!-- Right Circle -->
+                <div style="width: 584.77px; height: 584.77px; left: 1305.61px; top: 0px; position: absolute; background: white; border-radius: 9999px; border: 30.15px #D0FE54 solid;"></div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonial Section -->
-    <section class="testimonial">
-        <div class="container">
-            <h2 class="testimonial-title">APA KATA MEREKA<br>TENTANG PIXELPALS?</h2>
-            <div class="testimonial-cards">
-                <div class="testimonial-card">
-                    <div class="testimonial-year">SYEAAA'25</div>
-                    <p class="testimonial-quote">"Pengalaman di Media Produksi sangat berkesan. Kami belajar tidak hanya teknis, tapi juga kreativitas dan teamwork yang luar biasa."</p>
+    <!-- Testimonial Section - Custom Design -->
+    <section class="testimonial-section snap-section">
+        <h2 class="testimonial-title-custom">APA KATA MEREKA TENTANG PIXELPALS?</h2>
+        
+        <div class="slider-container">
+            <div class="slider-track">
+                <!-- Original 5 Cards -->
+                <div class="testimonial-card-slider">
+                    <div class="card-name">daffa'22</div>
+                    <p class="card-quote">Lingkungan kreatifnya kerasa banget. Di sini kita nggak cuma belajar visual design dari nol, tapi juga nemuin circle kolaborasi yang punya passion sama. Vibes studionya selalu asik buat brainstorming.</p>
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-year">SYEAAA'24</div>
-                    <p class="testimonial-quote">"Dosen-dosen yang supportive dan kurikulum yang relevan dengan industri membuat kami siap menghadapi dunia kerja."</p>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">sabina'25</div>
+                    <p class="card-quote">Pixelpals ngebantu aku nyusun portofolio karya yang jauh lebih solid. Project animasinya selalu relevan sama kebutuhan industri kreatif sekarang. Nggak nyesel milih konsentrasi ini!</p>
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-year">SYEAAA'23</div>
-                    <p class="testimonial-quote">"Portfolio yang kami bangun selama kuliah sangat membantu kami mendapatkan pekerjaan di perusahaan ternama."</p>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">SYERRA'25</div>
+                    <p class="card-quote">Sebagai ruang eksplorasi, Pixelpals ngasih wadah buat ide-ide liar kita. Mulai dari nyusun konsep karakter sampai tahap render akhir, semuanya dipelajari dengan cara yang menyenangkan dan interaktif.</p>
+                </div>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">nabila'25</div>
+                    <p class="card-quote">bener-bener tempat yang pas buat ngembangin skill animasi. Diskusi bareng teman-teman di sini bikin proses bikin karya visual yang out of the box jadi jauh lebih gampang dan seru!</p>
+                </div>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">nazel'25</div>
+                    <p class="card-quote">Fasilitas dan support system di Pixelpals juara sih. Cocok banget buat nongkrong sambil ngerjain tugas modelling atau 2D tanpa ngerasa burnout. Belajar software desain jadi kerasa ringan.</p>
+                </div>
+                
+                <!-- Duplicated 5 Cards for infinite loop -->
+                <div class="testimonial-card-slider">
+                    <div class="card-name">daffa'22</div>
+                    <p class="card-quote">Lingkungan kreatifnya kerasa banget. Di sini kita nggak cuma belajar visual design dari nol, tapi juga nemuin circle kolaborasi yang punya passion sama. Vibes studionya selalu asik buat brainstorming.</p>
+                </div>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">sabina'25</div>
+                    <p class="card-quote">Pixelpals ngebantu aku nyusun portofolio karya yang jauh lebih solid. Project animasinya selalu relevan sama kebutuhan industri kreatif sekarang. Nggak nyesel milih konsentrasi ini!</p>
+                </div>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">SYERRA'25</div>
+                    <p class="card-quote">Sebagai ruang eksplorasi, Pixelpals ngasih wadah buat ide-ide liar kita. Mulai dari nyusun konsep karakter sampai tahap render akhir, semuanya dipelajari dengan cara yang menyenangkan dan interaktif.</p>
+                </div>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">nabila'25</div>
+                    <p class="card-quote">bener-bener tempat yang pas buat ngembangin skill animasi. Diskusi bareng teman-teman di sini bikin proses bikin karya visual yang out of the box jadi jauh lebih gampang dan seru!</p>
+                </div>
+                
+                <div class="testimonial-card-slider">
+                    <div class="card-name">nazel'25</div>
+                    <p class="card-quote">Fasilitas dan support system di Pixelpals juara sih. Cocok banget buat nongkrong sambil ngerjain tugas modelling atau 2D tanpa ngerasa burnout. Belajar software desain jadi kerasa ringan.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">PIPA</div>
-                <div class="footer-contact">
-                    <a href="mailto:pixelpals@ui.ac.id" class="contact-item">
-                        📧 pixelpals@ui.ac.id
-                    </a>
-                    <a href="https://instagram.com/pixelpals" class="contact-item">
-                        📷 @pixelpals
-                    </a>
+    <footer class="snap-section">
+        <div style="width: 100%; max-width: 2091px; height: 450px; position: relative; margin: 0 auto; padding: 0 60px;">
+            <!-- PIPA - Left Side -->
+            <div style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); text-align: center; color: white; font-size: 257.24px; font-family: 'Symtext', sans-serif; font-weight: 400; word-wrap: break-word;">PIPA</div>
+            
+            <!-- Contact Section - Center -->
+            <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center;">
+                <div style="text-align: center; color: #D0FE54; font-size: 60px; font-family: 'Symtext', sans-serif; font-weight: 400; margin-bottom: 15px;">CONTACT</div>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px;">
+                    <img src="Email-icon.png" alt="Email" style="width: 45px; height: 45px; object-fit: contain;">
+                    <span style="text-align: center; color: white; font-size: 55px; font-family: 'Inter', sans-serif; font-weight: 600;">pixelpals@gmail.com</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+                    <img src="IG-icon.png" alt="Instagram" style="width: 45px; height: 45px; object-fit: contain;">
+                    <span style="text-align: center; color: white; font-size: 55px; font-family: 'Inter', sans-serif; font-weight: 600;">@pixelpals.ui</span>
+                </div>
+            </div>
+            
+            <!-- Mascot - Right Side -->
+            <img src="MASCOT.png" alt="Mascot" style="position: absolute; right: 60px; top: 50%; transform: translateY(-50%); height: 350px; object-fit: contain;">
+        </div>
+    </footer>
+
+    <!-- Portfolio Popup - Visual Design -->
+    <div class="portfolio-overlay" id="portfolioOverlayVisual">
+        <div class="portfolio-popup visual" id="portfolioPopupVisual">
+            <img src="IMAGE1.png" alt="Portfolio 1">
+            <img src="IMAGE2.png" alt="Portfolio 2">
+            <img src="IMAGE3.png" alt="Portfolio 3">
+            <img src="IMAGE4.png" alt="Portfolio 4">
+        </div>
+    </div>
+
+    <!-- Portfolio Popup - Animation -->
+    <div class="portfolio-overlay" id="portfolioOverlayAnimation">
+        <div class="portfolio-popup animation" id="portfolioPopupAnimation">
+            <div class="video-container" id="videoContainer1">
+                <video id="video1" src="animasi 1 .mov" loop playsinline></video>
+                <div class="video-overlay" id="videoOverlay1">
+                    <button class="play-btn" id="playBtn1">▶</button>
+                </div>
+            </div>
+            <div class="video-container" id="videoContainer2">
+                <video id="video2" src="animasi 2.mov" loop playsinline></video>
+                <div class="video-overlay" id="videoOverlay2">
+                    <button class="play-btn" id="playBtn2">▶</button>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+
+    <script>
+        // Portfolio Popup - Visual Design
+        const overlayVisual = document.getElementById('portfolioOverlayVisual');
+        const btnVisual = document.getElementById('btnVisualDesign');
+
+        btnVisual.addEventListener('click', (e) => {
+            e.preventDefault();
+            overlayVisual.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        overlayVisual.addEventListener('click', (e) => {
+            if (e.target === overlayVisual) {
+                overlayVisual.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Portfolio Popup - Animation
+        const overlayAnimation = document.getElementById('portfolioOverlayAnimation');
+        const btnAnimation = document.getElementById('btnAnimation');
+
+        btnAnimation.addEventListener('click', (e) => {
+            e.preventDefault();
+            overlayAnimation.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        overlayAnimation.addEventListener('click', (e) => {
+            if (e.target === overlayAnimation) {
+                overlayAnimation.classList.remove('active');
+                document.body.style.overflow = '';
+                // Pause all videos when closing
+                document.querySelectorAll('.portfolio-popup video').forEach(v => {
+                    v.pause();
+                });
+                document.querySelectorAll('.play-btn').forEach(b => {
+                    b.textContent = '▶';
+                });
+            }
+        });
+
+        // Video Play/Pause Controls
+        const videos = [
+            { video: document.getElementById('video1'), btn: document.getElementById('playBtn1'), overlay: document.getElementById('videoOverlay1') },
+            { video: document.getElementById('video2'), btn: document.getElementById('playBtn2'), overlay: document.getElementById('videoOverlay2') }
+        ];
+
+        videos.forEach(({ video, btn, overlay }) => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (video.paused) {
+                    video.play();
+                    btn.textContent = '⏸';
+                    overlay.style.opacity = '0';
+                    setTimeout(() => { overlay.style.display = 'none'; }, 300);
+                } else {
+                    video.pause();
+                    btn.textContent = '▶';
+                    overlay.style.display = 'flex';
+                    setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+                }
+            });
+
+            video.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (video.paused) {
+                    video.play();
+                    btn.textContent = '⏸';
+                    overlay.style.opacity = '0';
+                    setTimeout(() => { overlay.style.display = 'none'; }, 300);
+                } else {
+                    video.pause();
+                    btn.textContent = '▶';
+                    overlay.style.display = 'flex';
+                    setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+                }
+            });
+        });
+    </script>
+    </div>
 </body>
 </html>
