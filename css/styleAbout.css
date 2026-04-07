@@ -1,0 +1,181 @@
+@font-face {
+            font-family: 'Symtext';
+            src: url('../attr/Symtext.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #1D47F5;
+            --lime: #D0FE54;
+            --black: #000000;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            min-height: 100vh;
+            background-image: url('BACKGROUND-HOME.png');
+            background-size: auto 100vh;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .background-pattern{
+            width: 100%; 
+            height: 100%; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            pointer-events: none; 
+            z-index: -1;
+        }
+
+        .square-lime{
+            width: 95.37px; 
+            height: 95.37px; 
+            position: absolute; 
+            background: #D0FE54;
+        }
+
+        .square-blue{
+            width: 128.22px; 
+            height: 128.22px; 
+            position: absolute; 
+            background: #1D47F5;
+        }
+
+
+        .page-scale-wrapper {
+            zoom: 0.5;
+            -moz-transform: scale(0.5);
+            -moz-transform-origin: 0 0;
+        }
+
+        .about-section {
+            width: 100%;
+            max-width: 2697px;
+            height: 1500px;
+            position: relative;
+            margin: 0 auto;
+            padding: 150px 80px 100px 80px;
+        }
+
+        .about-green-bar {
+            width: 100%;
+            height: 500px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #D0FE54;
+            border-radius: 20px;
+        }
+
+        .about-title {
+            width: 100%;
+            height: 120px;
+            position: absolute;
+            left: 70px;
+            top: 50px;
+            color: #1D47F5;
+            font-size: 52px;
+            font-family: 'Symtext';
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+        .about-desc {
+            width: 90%;
+            height: auto;
+            position: absolute;
+            left: 70px;
+            top: 150px;
+            text-align: justify;
+            color: #1D47F5;
+            font-size: 48px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .about-blue-box {
+            width: 1624px;
+            height: 1024px;
+            position: absolute;
+            left: 1058px;
+            top: 560px;
+            background: #1D47F5;
+            border-radius: 20px;
+        }
+
+        .about-pixel-pals {
+            width: 100%;
+            height: 348px;
+            position: absolute;
+            left: 43px;
+            top: 650px;
+            text-align: center;
+            color: #D0FE54;
+            font-size: 91.06px;
+            font-family: 'Symtext';
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+        .about-pixel-desc {
+            width: 1551px;
+            height: 405px;
+            position: absolute;
+            left: 1085px;
+            top: 900px;
+            text-align: justify;
+            color: #D0FE54;
+            font-size: 45.23px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            word-wrap: break-word;
+        }
+
+        .about-image {
+            width: 1024px;
+            height: 1024px;
+            position: absolute;
+            left: 0;
+            top: 560px;
+            object-fit: contain;
+        }
+
+        .about-coreStream {
+            width: 1551px;
+            height: 405px;
+            position: absolute;
+            left: 1085px;
+            top: 1240px;
+            text-align: justify;
+            color: #D0FE54;
+            font-size: 60.23px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            word-wrap: break-word;
+            font-weight: bold;
+        }
+
+        .snap-section {
+            scroll-snap-align: start;
+            flex-direction: column;
+            justify-content: center;
+            padding: 200px;
+            box-sizing: border-box;
+        }
