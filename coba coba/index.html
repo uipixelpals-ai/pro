@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Paint</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="toolbar">
+  <button id="brush">Brush</button>
+  <button id="erase">Eraser</button>
+  <button id="rect">Rectangle</button>
+  <button id="circle">Circle</button>
+  <button id="text">Text</button>
+  <button id="undo">Undo</button>
+  <button id="redo">Redo</button>
+  
+  <input type="color" id="colorPicker">
+  <input type="range" id="size" min="1" max="50" value="5">
+</div>
+
+<canvas id="canvas"></canvas>
+
+<!-- CDN Fabric.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -5,1036 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PIPA Zone - PIXEL PALS</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Register local font - Symtext */
-        @font-face {
-            font-family: 'Symtext';
-            src: url('Symtext.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --blue: #1D47F5;
-            --lime: #D0FE54;
-            --black: #000000;
-            --white: #FFFFFF;
-        }
-
-        body {
-            font-family: 'Space Mono', monospace;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        /* Navigation Bar */
-        .navbar-container {
-            position: fixed;
-            top: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            width: 90vw;
-            max-width: 2332px;
-            gap: 15px;
-        }
-
-        .home-icon {
-            width: 100px;
-            height: 100px;
-            cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            border-radius: 100%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            background: var(--white);
-            padding: 8px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .home-icon:hover {
-            transform: scale(1.1);
-            filter: brightness(1.1);
-        }
-
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--white);
-            border-radius: 118px;
-            padding: 0;
-            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
-            position: relative;
-            flex: 1;
-            height: 82px;
-            box-sizing: border-box;
-            outline: 8px #1D47F5 solid;
-            overflow: hidden;
-        }
-
-        .nav-segment {
-            flex: 1;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 36px;
-            font-family: 'Symtext';
-            font-weight: 400;
-            color: #1D47F5;
-            text-transform: lowercase;
-            transition: background 0.3s ease, color 0.3s ease;
-            position: relative;
-            z-index: 2;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        .nav-segment.active {
-            background: #1D47F5;
-            color: #D0FE54;
-        }
-
-        .nav-segment:hover:not(.active) {
-            background: rgba(29, 71, 245, 0.1);
-        }
-
-        /* Page System */
-        .page-section {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-            z-index: 0;
-        }
-
-        .page-section.active {
-            opacity: 1;
-            visibility: visible;
-            z-index: 10;
-        }
-
-        /* PIPA Zone Page */
-        .pipa-zone-page {
-            width: 100vw;
-            height: 100vh;
-            background: #D0FE54;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* Placeholder Pages */
-        .placeholder-page {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            color: #1D47F5;
-            font-family: 'Symtext';
-        }
-
-        .placeholder-page h2 {
-            font-size: 72px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .placeholder-page p {
-            font-size: 32px;
-            font-family: 'Inter', sans-serif;
-            opacity: 0.7;
-        }
-
-        /* Decorative Background Elements */
-        .pipa-zone-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .pipa-zone-bg .deco-square {
-            position: absolute;
-            background: #BEE94F;
-        }
-
-        .pipa-zone-bg .deco-square.white {
-            background: #FFFFFF;
-        }
-
-        .pipa-zone-bg .square-1 { width: 82px; height: 82px; left: 38%; top: 21%; }
-        .pipa-zone-bg .square-2 { width: 82px; height: 82px; left: 41%; top: 26%; }
-        .pipa-zone-bg .square-3 { width: 82px; height: 82px; left: 44%; top: 21%; }
-        .pipa-zone-bg .square-4 { width: 82px; height: 82px; left: 41%; top: 18%; }
-        .pipa-zone-bg .square-5 { width: 82px; height: 82px; left: 25%; top: 85%; }
-        .pipa-zone-bg .square-6 { width: 82px; height: 82px; left: 28%; top: 90%; }
-        .pipa-zone-bg .square-7 { width: 82px; height: 82px; left: 31%; top: 85%; }
-        .pipa-zone-bg .square-8 { width: 82px; height: 82px; left: 28%; top: 82%; }
-        .pipa-zone-bg .square-9 { width: 90px; height: 90px; left: 9%; top: 2%; }
-        .pipa-zone-bg .square-10 { width: 90px; height: 90px; left: 12%; top: 6%; }
-        .pipa-zone-bg .square-11 { width: 90px; height: 90px; left: 15%; top: 2%; }
-        .pipa-zone-bg .square-12 { width: 90px; height: 90px; left: 12%; top: -2%; }
-        .pipa-zone-bg .square-13 { width: 90px; height: 90px; left: 92%; top: 15%; }
-        .pipa-zone-bg .square-14 { width: 90px; height: 90px; left: 95%; top: 20%; }
-        .pipa-zone-bg .square-15 { width: 90px; height: 90px; left: 94%; top: 52%; }
-        .pipa-zone-bg .square-16 { width: 90px; height: 90px; left: 94%; top: 48%; }
-        .pipa-zone-bg .square-17 { width: 90px; height: 90px; left: 94%; top: 62%; }
-        .pipa-zone-bg .square-18 { width: 90px; height: 90px; left: 97%; top: 57%; }
-        .pipa-zone-bg .square-19 { width: 90px; height: 90px; left: 0%; top: 82%; }
-        .pipa-zone-bg .square-20 { width: 90px; height: 90px; left: 0%; top: 78%; }
-        .pipa-zone-bg .square-21 { width: 90px; height: 90px; left: 0%; top: 92%; }
-        .pipa-zone-bg .square-22 { width: 90px; height: 90px; left: 3%; top: 87%; }
-        .pipa-zone-bg .square-23 { width: 90px; height: 90px; left: 99%; top: 15%; }
-        .pipa-zone-bg .square-24 { width: 90px; height: 90px; left: 96%; top: 11%; }
-        .pipa-zone-bg .square-25 { width: 90px; height: 90px; left: 51%; top: 96%; }
-        .pipa-zone-bg .square-26 { width: 90px; height: 90px; left: 54%; top: 101%; }
-        .pipa-zone-bg .square-27 { width: 90px; height: 90px; left: 57%; top: 96%; }
-        .pipa-zone-bg .square-28 { width: 90px; height: 90px; left: 54%; top: 92%; }
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vw;
-            max-width: 1400px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            z-index: 1;
-            gap: 20px;
-        }
-
-        .element-bg1 {
-            display: block;
-            height: 60vh;
-            max-height: 550px;
-            width: auto;
-            object-fit: contain;
-            object-position: bottom;
-        }
-
-        .element-bg1-wrapper {
-            position: relative;
-            display: inline-block;
-            height: 60vh;
-            max-height: 550px;
-        }
-
-        .element-bg2 {
-            display: block;
-            height: 60vh;
-            max-height: 550px;
-            width: auto;
-            object-fit: contain;
-            object-position: bottom;
-        }
-
-        .element-bg2-wrapper {
-            position: relative;
-            display: inline-block;
-            height: 60vh;
-            max-height: 550px;
-        }
-
-        .draw-boxes-container {
-            position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            z-index: 5;
-            width: 95%;
-            max-width: 450px;
-        }
-
-        .draw-box {
-            width: 32%;
-            max-width: 140px;
-            height: auto;
-            object-fit: contain;
-        }
-
-        .stopmotion-boxes-container {
-            position: absolute;
-            top: 77%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            z-index: 5;
-            width: 95%;
-            max-width: 450px;
-        }
-
-        .stopmotion-box {
-            width: 32%;
-            max-width: 140px;
-            height: auto;
-            object-fit: contain;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .stopmotion-box:hover {
-            transform: scale(1.05);
-        }
-
-        /* Section Transitions - Carousel Style */
-        .pipa-zone-page {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            background-image: url('PAGE_1/BG.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        .carousel-container {
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vw;
-            max-width: 1400px;
-            height: 100vh;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .carousel-slide.active {
-            display: flex;
-            z-index: 2;
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .draw-section {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .draw-layout {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        /* Color Palette - Left */
-        .color-palette {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(6, 1fr);
-            gap: 8px;
-            padding: 10px;
-            background: #FFFFFF;
-            border-radius: 16px;
-            border: 2px solid #1D47F5;
-        }
-
-        .color-swatch {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: transform 0.2s;
-        }
-
-        .color-swatch:hover {
-            transform: scale(1.15);
-        }
-
-        .color-swatch.active {
-            border-color: #000;
-            box-shadow: 0 0 0 2px #1D47F5;
-        }
-
-        /* Extra Controls - Universal Picker & Stroke */
-        .extra-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            justify-content: center;
-            padding: 12px;
-            background: #FFFFFF;
-            border-radius: 16px;
-            border: 2px solid #1D47F5;
-            min-width: 80px;
-        }
-
-        .extra-control-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .extra-control-label {
-            font-size: 8px;
-            font-weight: bold;
-            color: #1D47F5;
-            text-transform: uppercase;
-            font-family: 'Space Mono', monospace;
-        }
-
-        #universalPicker {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            border: 2px solid #1D47F5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        #universalPicker:hover {
-            transform: scale(1.1);
-        }
-
-        #strokeBlock {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            border: 3px solid #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            font-weight: bold;
-            background: #FFFFFF;
-            color: #000;
-            cursor: pointer;
-            transition: transform 0.2s;
-            font-family: 'Space Mono', monospace;
-        }
-
-        #strokeBlock:hover {
-            transform: scale(1.1);
-        }
-
-        #strokeBlock.active {
-            border-color: #D0FE54;
-            box-shadow: 0 0 10px rgba(208, 254, 84, 0.7);
-            background: #D0FE54;
-            color: #000;
-        }
-
-        #colorPickerInput {
-            display: none;
-        }
-
-        /* Whiteboard - Center */
-        .whiteboard-container {
-            position: relative;
-            width: 60%;
-            max-width: 600px;
-            height: 400px;
-        }
-
-        .whiteboard-bg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        #drawingCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            cursor: crosshair;
-        }
-
-        /* Tools - Right */
-        .tools-panel {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 8px;
-            padding: 10px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 10px;
-            border: 2px solid #1D47F5;
-        }
-
-        .tool-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 8px;
-            background: #f0f0f0;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-
-        .tool-btn:hover {
-            background: #e0e0e0;
-            transform: scale(1.05);
-        }
-
-        .tool-btn.active {
-            background: #1D47F5;
-            color: white;
-        }
-
-        /* Bottom Panel */
-        .bottom-panel {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            padding: 15px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 10px;
-            border: 2px solid #1D47F5;
-        }
-
-        .brush-size-panel {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 15px;
-            border: 2px solid #1D47F5;
-            border-radius: 8px;
-            background: white;
-        }
-
-        .brush-size-panel label {
-            font-size: 12px;
-            color: #1D47F5;
-            font-weight: bold;
-        }
-
-        .brush-size-slider {
-            width: 100px;
-            accent-color: #1D47F5;
-        }
-
-        .brush-preview {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #000;
-        }
-
-        .save-btn {
-            padding: 10px 30px;
-            background: #1D47F5;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Space Mono', monospace;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .save-btn:hover {
-            transform: scale(1.05);
-            background: #1539c7;
-        }
-
-        .draw-section-content {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Avatar Selection */
-        .avatar-selection {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: -2px;
-            z-index: 10;
-        }
-
-        .type-bg {
-            position: absolute;
-            top: 86%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%;
-            max-width: 200px;
-            height: auto;
-            object-fit: contain;
-            z-index: 10;
-        }
-
-        .name-input-container {
-            position: absolute;
-            top: 86%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 55%;
-            max-width: 180px;
-            z-index: 11;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .name-input {
-            width: 100%;
-            height: 25px;
-            border: none;
-            background: transparent;
-            text-align: center;
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            color: #fff;
-            outline: none;
-        }
-
-        .name-input::placeholder {
-            color: #fff;
-        }
-
-        .name-input:disabled {
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .confirm-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 25px 35px;
-            border-radius: 15px;
-            border: 3px solid #1D47F5;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-            z-index: 1000;
-            text-align: center;
-            min-width: 250px;
-        }
-
-        .confirm-popup.show {
-            display: block;
-        }
-
-        .confirm-popup p {
-            margin: 0 0 20px 0;
-            font-size: 16px;
-            font-weight: bold;
-            color: #000;
-        }
-
-        .confirm-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .confirm-btn {
-            padding: 10px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Space Mono', monospace;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .confirm-btn.yes {
-            background: #D0FE54;
-            color: #000;
-        }
-
-        .confirm-btn.no {
-            background: #1D47F5;
-            color: #fff;
-        }
-
-        /* Save Popup */
-        .save-popup {
-            display: none;
-            position: fixed;
-            top: 35%;
-            right: 5%;
-            transform: translate(0, 0);
-            background: #FFFFFF;
-            padding: 30px 40px;
-            border-radius: 20px;
-            border: 3px solid #1D47F5;
-            box-shadow: 0 8px 40px rgba(29, 71, 245, 0.3);
-            z-index: 1000;
-            text-align: center;
-            min-width: 380px;
-            position: relative;
-        }
-
-        .save-popup.show {
-            display: block;
-        }
-
-        .save-popup .close-popup {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
-            background: #1E293B;
-            color: white;
-            border-radius: 50%;
-            font-size: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            border: none;
-        }
-
-        .save-popup .close-popup:hover {
-            background: #EF4444;
-        }
-
-        .save-popup h3 {
-            margin: 0 0 25px 0;
-            font-size: 18px;
-            color: #1E293B;
-            font-weight: bold;
-        }
-
-        .save-slots {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 25px;
-        }
-
-        .save-slot {
-            width: 90px;
-            height: 90px;
-            border: 3px solid #ccc;
-            border-radius: 12px;
-            cursor: pointer;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #F5F5F5;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .save-slot:hover:not(.disabled) {
-            border-color: #1D47F5;
-            transform: scale(1.05);
-        }
-
-        .save-slot.selected {
-            border-color: #D0FE54;
-            box-shadow: 0 0 15px rgba(208, 254, 84, 0.6);
-            background: #D0FE54;
-        }
-
-        .save-slot.disabled {
-            cursor: not-allowed;
-            opacity: 0.9;
-        }
-
-        .save-slot.disabled:hover {
-            transform: none;
-            box-shadow: none;
-            background: #F5F5F5;
-            border-color: #ccc;
-        }
-
-        .save-slot img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .save-slot .slot-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: #1D47F5;
-        }
-
-        .save-slot.has-image .slot-number {
-            display: none;
-        }
-
-        .save-slot .delete-slot {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            width: 24px;
-            height: 24px;
-            background: #EF4444;
-            color: white;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: bold;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .save-slot.has-image .delete-slot {
-            display: flex;
-        }
-
-        .save-slot .delete-slot:hover {
-            background: #DC2626;
-            transform: scale(1.1);
-        }
-
-        /* Confirmation buttons */
-        .save-confirm {
-            display: none;
-            margin-top: 15px;
-        }
-
-        .save-confirm.show {
-            display: block;
-        }
-
-        .save-confirm p {
-            margin: 0 0 15px 0;
-            font-size: 14px;
-            color: #1E293B;
-        }
-
-        .save-confirm-btns {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .save-confirm-btns button {
-            padding: 10px 30px;
-            border: none;
-            border-radius: 12px;
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .save-confirm-btns .yes-btn {
-            background: #D0FE54;
-            color: #000;
-        }
-
-        .save-confirm-btns .yes-btn:hover {
-            background: #b8e445;
-            transform: scale(1.05);
-        }
-
-        .save-confirm-btns .no-btn {
-            background: #1E293B;
-            color: #fff;
-        }
-
-        .save-confirm-btns .no-btn:hover {
-            background: #0f172a;
-            transform: scale(1.05);
-        }
-
-        .save-popup .cancel-btn {
-            display: none;
-            margin-top: 20px;
-            padding: 12px 40px;
-            background: transparent;
-            color: #1E293B;
-            border: 2px solid #1E293B;
-            border-radius: 12px;
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .save-popup .cancel-btn.show {
-            display: inline-block;
-        }
-
-        .save-popup .cancel-btn:hover {
-            background: #1E293B;
-            color: white;
-        }
-
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            left: auto;
-            transform: translateX(120%);
-            background: #1E293B;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-family: 'Space Mono', monospace;
-            font-size: 14px;
-            z-index: 2000;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            background: #22C55E;
-        }
-
-        .btn-nav {
-            width: 2vw;
-            height: 2vw;
-            max-width: 25px;
-            max-height: 25px;
-            min-width: 15px;
-            min-height: 15px;
-            cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            z-index: 10;
-        }
-
-        .btn-nav:hover {
-            transform: scale(1.1);
-            filter: brightness(1.2);
-        }
-
-        .btn-nav:active {
-            transform: scale(0.95);
-        }
-
-        .button-container {
-            display: flex;
-            gap: 2vw;
-            align-items: center;
-            justify-content: center;
-            margin-top: -0.3vh;
-        }
-
-        .profile-container {
-            width: 12vw;
-            height: 12vw;
-            max-width: 120px;
-            max-height: 120px;
-            min-width: 80px;
-            min-height: 80px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .profile-img.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
-        }
-
-        .profile-img.slide-out-left {
-            transform: translateX(-120%);
-            opacity: 0;
-        }
-
-        .profile-img.slide-out-right {
-            transform: translateX(120%);
-            opacity: 0;
-        }
-
-        .profile-img.slide-in-right {
-            transform: translateX(120%);
-            opacity: 0;
-        }
-
-        .profile-img.slide-in-left {
-            transform: translateX(-120%);
-            opacity: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="css/stylePipaZone.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -1167,111 +138,311 @@
 
         <!-- Page 1: DRAW -->
         <div class="page-section" data-page="draw">
-            <div class="draw-section">
-                <div class="draw-layout">
-                    <!-- Color Palette - Left (3x6 vertical) -->
-                    <div class="color-palette" id="colorPalette">
-                            <!-- Row 1: Reds -->
-                            <div class="color-swatch" style="background: #B91C1C;" data-color="#B91C1C"></div>
-                            <div class="color-swatch" style="background: #DC2626;" data-color="#DC2626"></div>
-                            <div class="color-swatch" style="background: #FCA5A5;" data-color="#FCA5A5"></div>
-                            <!-- Row 2: Greens -->
-                            <div class="color-swatch" style="background: #166534;" data-color="#166534"></div>
-                            <div class="color-swatch" style="background: #16A34A;" data-color="#16A34A"></div>
-                            <div class="color-swatch" style="background: #A7F3D0;" data-color="#A7F3D0"></div>
-                            <!-- Row 3: Yellows -->
-                            <div class="color-swatch" style="background: #B45309;" data-color="#B45309"></div>
-                            <div class="color-swatch" style="background: #FBBF24;" data-color="#FBBF24"></div>
-                            <div class="color-swatch" style="background: #FEF3C7;" data-color="#FEF3C7"></div>
-                            <!-- Row 4: Purples -->
-                            <div class="color-swatch" style="background: #4F46E5;" data-color="#4F46E5"></div>
-                            <div class="color-swatch" style="background: #7C3AED;" data-color="#7C3AED"></div>
-                            <div class="color-swatch" style="background: #C4B5FD;" data-color="#C4B5FD"></div>
-                            <!-- Row 5: Blues -->
-                            <div class="color-swatch" style="background: #1D4ED8;" data-color="#1D4ED8"></div>
-                            <div class="color-swatch" style="background: #2563EB;" data-color="#2563EB"></div>
-                            <div class="color-swatch" style="background: #BFDBFE;" data-color="#BFDBFE"></div>
-                            <!-- Row 6: Magentas/Pinks -->
-                            <div class="color-swatch" style="background: #9333EA;" data-color="#9333EA"></div>
-                            <div class="color-swatch" style="background: #EC4899;" data-color="#EC4899"></div>
-                            <div class="color-swatch" style="background: #F472B6;" data-color="#F472B6"></div>
-                        </div>
-
-                        <!-- Extra Controls - Universal Picker & Stroke -->
-                        <div class="extra-controls">
-                            <div class="extra-control-item">
-                                <div class="extra-control-label">Universal</div>
-                                <div class="color-swatch" id="universalPicker" style="background: linear-gradient(135deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);" title="Double Click to Pick Any Color"></div>
-                            </div>
-                            <div class="extra-control-item">
-                                <div class="extra-control-label">Stroke</div>
-                                <div class="color-swatch" id="strokeBlock" style="background: #FFFFFF; border: 3px solid #000000;" title="Click to Apply Stroke">S</div>
-                            </div>
-                        </div>
-                        <input type="color" id="colorPickerInput">
-
-                        <!-- Whiteboard - Center -->
-                        <div class="whiteboard-container">
-                            <img src="img/whiteboard.png" alt="Whiteboard" class="whiteboard-bg">
-                            <canvas id="drawingCanvas"></canvas>
-                        </div>
-
-                        <!-- Tools - Right (2x4) -->
-                        <div class="tools-panel">
-                            <button class="tool-btn active" id="brushTool" title="Brush">🖌️</button>
-                            <button class="tool-btn" id="eraserTool" title="Eraser">🧹</button>
-                            <button class="tool-btn" id="shapeTool" title="Shape">⚪</button>
-                            <button class="tool-btn" id="textTool" title="Text">T</button>
-                            <button class="tool-btn" id="pickerTool" title="Color Picker">🎨</button>
-                            <button class="tool-btn" id="fillTool" title="Fill">🪣</button>
-                            <button class="tool-btn" id="undoTool" title="Undo">↩️</button>
-                            <button class="tool-btn" id="redoTool" title="Redo">↪️</button>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Panel -->
-                    <div class="bottom-panel">
-                        <div class="brush-size-panel">
-                            <label>Size:</label>
-                            <input type="range" class="brush-size-slider" id="brushSize" min="1" max="50" value="5">
-                            <div class="brush-preview" id="brushPreview"></div>
-                        </div>
-                        <button class="save-btn" id="saveBtn">SAVE</button>
-                    </div>
-                    <div class="toast" id="toastDraw" style="position: fixed; top: 30px; right: 30px; z-index: 2000;"></div>
+            <div class="draw-section" style="position: relative; width: 2747.81px; height: 1366.29px; transform: scale(0.32); transform-origin: center center; left: 50%; top: 50%; margin-left: -1374px; margin-top: -683px;">
+                <div style="width: 437px; height: 113.29px; left: 1721px; top: 1253px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 1079px; height: 113.29px; left: 604px; top: 1253px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 990px; height: 27.50px; left: 650px; top: 1296.22px; position: absolute; background: white"></div>
+                <div style="width: 855.22px; height: 80px; left: 1511.89px; top: 1269.65px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 68.57px; font-family: Symtext; font-weight: 400; word-wrap: break-word">SAVE</div>
+                <div style="width: 60.09px; height: 62.37px; left: 1190.72px; top: 1278.46px; position: absolute; background: #D0FE54; border-radius: 9999px"></div>
+                <div style="width: 445px; height: 1022px; left: 2302.81px; top: 92px; position: absolute; background: #D0FE54"></div>
+                <div style="width: 173px; height: 173px; left: 2337.81px; top: 134px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 173px; height: 173px; left: 2539.81px; top: 134px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 173px; height: 173px; left: 2337.81px; top: 338px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 173px; height: 173px; left: 2539.81px; top: 338px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 173px; height: 173px; left: 2337.81px; top: 542px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 173px; height: 173px; left: 2539.81px; top: 542px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 173px; height: 173px; left: 2337.81px; top: 746px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 173px; height: 173px; left: 2539.81px; top: 746px; position: absolute; background: #1D47F5"></div>
+                <img style="width: 97.85px; height: 97.85px; left: 2577.38px; top: 783.57px; position: absolute" src="img/draw/tool-undo.png" />
+                <img style="width: 97.85px; height: 97.85px; left: 2473.23px; top: 881.43px; position: absolute; transform: rotate(180deg); transform-origin: top left" src="img/draw/tool-redo.png" />
+                <img style="width: 109.50px; height: 109.50px; left: 2369.56px; top: 165.75px; position: absolute" src="img/draw/tool-brush.png" />
+                <div style="width: 121.94px; height: 113.22px; left: 2363.34px; top: 367.89px; position: absolute; border: 10px black solid"></div>
+                <img style="width: 119.53px; height: 119.53px; left: 2359.53px; top: 575.47px; position: absolute" src="img/draw/tool-eraser.png" />
+                <img style="width: 225.27px; height: 225.27px; left: 2516.69px; top: 107.86px; position: absolute" src="img/draw/tool-picker.png" />
+                <img style="width: 186px; height: 193px; left: 2525.31px; top: 318px; position: absolute" src="img/draw/tool-shapes.png" />
+                <img style="width: 202.96px; height:    182.38px; left: 2525.31px; top: 135.62px; position: absolute" src="img/draw/tool-fill.png" />
+                <img style="width: 150.45px; height: 150.45px; left: 2561.81px; top: 560px; position: absolute" src="img/draw/tool-text.png" />
+                <div style="width: 1668px; height: 1022px; left: 549px; top: 142.79px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 770.76px; height: 1251px; left: 1800px; top: 47.41px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 822.37px; height: 1198.85px; left: 1773.93px; top: 21.61px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 865.59px; height: 1141.17px; left: 1745.09px; top: 0px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 770.76px; height: 1251px; left: 2217px; top: 47.41px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 822.37px; height: 1198.85px; left: 2190.93px; top: 21.61px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 865.59px; height: 1141.17px; left: 2162.09px; top: 0px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 1554px; height: 979px; left: 608px; top: 92px; position: absolute; background: white; border: 2px black solid">
+                    <canvas id="drawingCanvas" style="width: 100%; height: 100%;"></canvas>
                 </div>
+                <div style="width: 445px; height: 1022px; left: 0px; top: 109px; position: absolute; background: white"></div>
+                <div style="width: 107px; height: 107px; left: 35px; top: 141px; position: absolute; background: #CE2029"></div>
+                <div style="width: 107px; height: 107px; left: 303px; top: 141px; position: absolute; background: #F8A4AB"></div>
+                <div style="width: 107px; height: 107px; left: 169px; top: 141px; position: absolute; background: #ED2027"></div>
+                <div style="width: 107px; height: 107px; left: 35px; top: 270px; position: absolute; background: #0F8B43"></div>
+                <div style="width: 107px; height: 107px; left: 303px; top: 270px; position: absolute; background: #A7D49A"></div>
+                <div style="width: 107px; height: 107px; left: 169px; top: 270px; position: absolute; background: #3AB548"></div>
+                <div style="width: 107px; height: 107px; left: 35px; top: 399px; position: absolute; background: #E4E41C"></div>
+                <div style="width: 107px; height: 107px; left: 303px; top: 399px; position: absolute; background: #FFE3A9"></div>
+                <div style="width: 107px; height: 107px; left: 169px; top: 399px; position: absolute; background: #F4EA33"></div>
+                <div style="width: 107px; height: 107px; left: 35px; top: 528px; position: absolute; background: #512C79"></div>
+                <div style="width: 107px; height: 107px; left: 303px; top: 528px; position: absolute; background: #BB97C6"></div>
+                <div style="width: 107px; height: 107px; left: 169px; top: 528px; position: absolute; background: #733E98"></div>
+                <div style="width: 107px; height: 107px; left: 35px; top: 657px; position: absolute; background: #0E6B99"></div>
+                <div style="width: 107px; height: 107px; left: 303px; top: 657px; position: absolute; background: #98CDE9"></div>
+                <div style="width: 107px; height: 107px; left: 169px; top: 657px; position: absolute; background: #1675BA"></div>
+                <div style="width: 107px; height: 107px; left: 35px; top: 786px; position: absolute; background: #A22067"></div>
+                <div style="width: 173px; height: 173px; left: 35px; top: 915px; position: absolute; background: white; border: 3px black solid"></div>
+                <div style="width: 173px; height: 173px; left: 237px; top: 915px; position: absolute; border: 27px black solid"></div>
+                <div style="width: 107px; height: 107px; left: 303px; top: 786px; position: absolute; background: #E99CC4"></div>
+                <div style="width: 107px; height: 107px; left: 169px; top: 786px; position: absolute; background: #CC1D8B"></div>
             </div>
         </div>
 
         <!-- Page 2: STOPMOTION -->
         <div class="page-section" data-page="stopmotion">
-            <div class="placeholder-page">
-                <h2>Stopmotion</h2>
-                <p>Page coming soon</p>
+            <div class="stopmotion-container" style="position: relative; width: 1594px; height: 1482px; transform: scale(0.35); transform-origin: center center; left: 50%; top: 50%; margin-left: -797px; margin-top: -741px;">
+                <div id="makeLobby" style="position: absolute; left: 0px; top: 0px; width: 0%; height: 100%; z-index: 20;">
+                    <div style="width: 685px; height: 222px; left: 73.31px; top: 219px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.31px; top: 219px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 73.62px; top: 522px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.62px; top: 522px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 74.62px; top: 814px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 835.62px; top: 814px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 74.93px; top: 1117px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 835.93px; top: 1117px; position: absolute; background: white"></div>
+                    <div style="width: 815px; height: 161px; left: 779px; top: 0px; position: absolute; background: white"></div>
+                    <div style="width: 1594px; height: 1251px; left: 0px; top: 161px; position: absolute; background: #1D47F5"></div>
+                    <div style="width: 685px; height: 222px; left: 73.31px; top: 219px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.31px; top: 219px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 73.62px; top: 522px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.62px; top: 522px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 74.62px; top: 814px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 835.62px; top: 814px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 74.93px; top: 1117px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 835.93px; top: 1117px; position: absolute; background: white"></div>
+                    <div style="width: 815px; height: 161px; left: 779px; top: 0px; position: absolute; background: white"></div>
+                    <div style="width: 1594px; height: 1320.70px; left: 0px; top: 161px; position: absolute; background: white"></div>
+                    <div style="width: 815px; height: 161px; left: 779px; top: 0px; position: absolute; background: white"></div>
+                    <div style="width: 701px; height: 136px; left: 815px; top: 10px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word">MAKE LOBBY</div>
+                    <img style="width: 685px; height: 514px; left: 74px; top: 238px; position: absolute; border: 6px #1D47F5 solid" src="img/stopmotion-5.png" />
+                    <img style="width: 685px; height: 514px; left: 834px; top: 238px; position: absolute; border: 6px #1D47F5 solid" src="img/stopmotion-6.png" />
+                    <img style="width: 685px; height: 514px; left: 74px; top: 804px; position: absolute; border: 6px #1D47F5 solid" src="img/stopmotion-7.png" />
+                    <img style="width: 685px; height: 514px; left: 835px; top: 804px; position: absolute; border: 6px #1D47F5 solid" src="img/stopmotion-8.png" />
+                    <div style="width: 230.98px; height: 230.98px; left: 778.47px; top: 0px; position: absolute; transform: rotate(34deg); transform-origin: top left; background: white"></div>
+                    <div style="width: 107.62px; height: 107.62px; left: 48.26px; top: 199.61px; position: absolute; background: #D0FE54; border-radius: 9999px"></div>
+                    <div style="width: 27.42px; height: 0px; left: 72.62px; top: 255.35px; position: absolute; transform: rotate(45deg); transform-origin: top left; outline: 5px #1D47F5 solid; outline-offset: -2.50px"></div>
+                    <div style="width: 58.35px; height: 0px; left: 131.52px; top: 232.10px; position: absolute; transform: rotate(133deg); transform-origin: top left; outline: 5px #1D47F5 solid; outline-offset: -2.50px"></div>
+                    <div style="width: 107.62px; height: 107.62px; left: 797px; top: 199.61px; position: absolute; background: #D0FE54; border-radius: 9999px"></div>
+                    <div style="width: 27.42px; height: 0px; left: 821.36px; top: 255.35px; position: absolute; transform: rotate(45deg); transform-origin: top left; outline: 5px #1D47F5 solid; outline-offset: -2.50px"></div>
+                    <div style="width: 58.35px; height: 0px; left: 880.26px; top: 232.10px; position: absolute; transform: rotate(133deg); transform-origin: top left; outline: 5px #1D47F5 solid; outline-offset: -2.50px"></div>
+                    <div style="width: 107.62px; height: 107.62px; left: 38.20px; top: 770.78px; position: absolute; background: #D0FE54; border-radius: 9999px"></div>
+                    <div style="width: 27.42px; height: 0px; left: 62.56px; top: 826.51px; position: absolute; transform: rotate(45deg); transform-origin: top left; outline: 5px #1D47F5 solid; outline-offset: -2.50px"></div>
+                    <div style="width: 58.35px; height: 0px; left: 121.46px; top: 803.26px; position: absolute; transform: rotate(133deg); transform-origin: top left; outline: 5px #1D47F5 solid; outline-offset: -2.50px"></div>
+                    <div style="width: 270.90px; height: 79.31px; left: 1201.28px; top: 1365.89px; position: absolute; background: #1D47F5; border-radius: 200.97px"></div>
+                    <div style="width: 388.28px; height: 90.23px; left: 1142.59px; top: 1360.43px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 40.19px; font-family: Symtext; font-weight: 400; letter-spacing: 1.21px; word-wrap: break-word">next</div>
+                    <div style="width: 388.28px; height: 90.23px; left: 1142.59px; top: 1360.43px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 40.19px; font-family: Symtext; font-weight: 400; letter-spacing: 1.21px; word-wrap: break-word">next</div>
+                    <div>
+                        <button id="btnJoin" style="background: none; border: none; width: 701px; height: 136px; left: 39px; top: 25px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word">JOIN LOBBY</button>
+                    </div>
+                </div>
+                <div id="joinLobby" style="position: absolute; left: 0px; top: 0px; width: 0%; height: 100%; z-index: 10;">
+                    <div style="width: 1594px; height: 1251px; left: 0px; top: 231px; position: absolute; background: #1D47F5"></div>
+                    <div style="width: 685px; height: 222px; left: 73.31px; top: 289px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.31px; top: 289px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 73.62px; top: 592px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.62px; top: 592px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 74.62px; top: 884px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 835.62px; top: 884px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 113.18px; top: 862.02px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 874.18px; top: 862.02px; position: absolute; background: white"></div>
+                    <div style="width: 1594px; height: 1251px; left: 0px; top: 231px; position: absolute; background: #1D47F5"></div>
+                    <div style="width: 685px; height: 222px; left: 73.31px; top: 289px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.31px; top: 289px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 73.62px; top: 592px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 834.62px; top: 592px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 74.62px; top: 884px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 835.62px; top: 884px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 113.18px; top: 862.02px; position: absolute; background: white"></div>
+                    <div style="width: 685px; height: 222px; left: 874.18px; top: 862.02px; position: absolute; background: white"></div>
+                    <div style="width: 1594px; height: 1313px; left: 0px; top: 169px; position: absolute; background: #1D47F5"></div>
+                    <div style="width: 784px; height: 161px; left: 0px; top: 70px; position: absolute; background: #1D47F5"></div>
+                    <div style="width: 270.54px; height: 204.63px; left: 765.41px; top: 0px; position: absolute; transform: rotate(55deg); transform-origin: top left; background: #1D47F5"></div>
+                    <img style="width: 685px; height: 525px; left: 74px; top: 240px; position: absolute" src="img/stopmotion-1.png" />
+                    <img style="width: 685px; height: 525px; left: 834px; top: 240px; position: absolute" src="img/stopmotion-2.png" />
+                    <img style="width: 685px; height: 525px; left: 74px; top: 835px; position: absolute" src="img/stopmotion-3.png" />
+                    <img style="width: 685px; height: 525px; left: 834px; top: 835px; position: absolute" src="img/stopmotion-4.png" />
+                    <div style="width: 270.90px; height: 79.31px; left: 281.99px; top: 1057.27px; position: absolute; background: #1D47F5; border-radius: 200.97px"></div>
+                    <div style="width: 271px; height: 91px; left: 280px; top: 1052px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 40.19px; font-family: Symtext; font-weight: 400; letter-spacing: 1.21px; word-wrap: break-word">JOIN</div>
+                    <div style="width: 270.90px; height: 79.31px; left: 1043.99px; top: 1057.27px; position: absolute; background: #1D47F5; border-radius: 200.97px"></div>
+                    <div style="width: 271px; height: 91px; left: 1042px; top: 1052px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 40.19px; font-family: Symtext; font-weight: 400; letter-spacing: 1.21px; word-wrap: break-word">JOIN</div>
+                    <div style="width: 270.90px; height: 79.31px; left: 281.99px; top: 462.27px; position: absolute; background: #1D47F5; border-radius: 200.97px"></div>
+                    <div style="width: 271px; height: 91px; left: 280px; top: 457px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 40.19px; font-family: Symtext; font-weight: 400; letter-spacing: 1.21px; word-wrap: break-word">JOIN</div>
+                    <div style="width: 270.90px; height: 79.31px; left: 1043.99px; top: 462.27px; position: absolute; background: #1D47F5; border-radius: 200.97px"></div>
+                    <div style="width: 271px; height: 91px; left: 1042px; top: 457px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 40.19px; font-family: Symtext; font-weight: 400; letter-spacing: 1.21px; word-wrap: break-word">JOIN</div>
+                    <div style="width: 779px; height: 169px; left: 0px; top: 0px; position: absolute; background: #1D47F5"></div>
+                    <div style="width: 701px; height: 136px; left: 39px; top: 25px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word">JOIN LOBBY</div>
+                    <div style="width: 1594px; height: 1251px; left: 0px; top: 161px; position: absolute; background: #1D47F5"></div>
+                    <button id="btnMake" style="background: none; border: none; width: 701px; height: 136px; left: 815px; top: 10px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word">MAKE LOBBY</button>
+                </div>  
+
             </div>
         </div>
 
         <!-- Page 3: GALLERY -->
         <div class="page-section" data-page="gallery">
-            <div class="placeholder-page">
-                <h2>Gallery</h2>
-                <p>Page coming soon</p>
+            <div class="gallery-container" id="galleryContainer" style="position: absolute; width: 2601px; height: 1412px; transform: scale(0.35); transform-origin: center center; left: 50%; top: 50%; margin-left: -1300px; margin-top: -706px;">
+                <div>
+                    <div>
+                        <div style="width: 770.76px; height: 1251px; left: 47.41px; top: 0px; position: absolute; background: #1D47F5" ></div>
+                        <div style="width: 822.37px; height: 1198.85px; left: 21.61px; top: 26.07px; position: absolute; background: #1D47F5"></div>
+                        <div style="width: 865.59px; height: 1141.17px; left: 0px; top: 54.92px; position: absolute; background: #1D47F5"></div>
+                        <div style="width: 770.76px; height: 1251px; left: 47.41px; top: 160.51px; position: absolute; background: #1D47F5"></div>
+                        <div style="width: 822.37px; height: 1198.85px; left: 21.61px; top: 186.59px; position: absolute; background: #1D47F5"></div>
+                        <div style="width: 865.59px; height: 1141.17px; left: 0px; top: 215.43px; position: absolute; background: #1D47F5"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 80.52px; top: 316.11px; position: absolute; background: #D0FE54"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 92.13px; top: 308.43px; position: absolute; background: #D0FE54"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 68.76px; top: 323.85px; position: absolute; background: #D0FE54"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 396.73px; top: 316.11px; position: absolute; background: #D0FE54"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 408.34px; top: 308.43px; position: absolute; background: #D0FE54"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 384.97px; top: 323.85px; position: absolute; background: #D0FE54"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 80.52px; top: 481.69px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 92.13px; top: 474px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 68.76px; top: 489.43px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 396.73px; top: 481.69px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 408.34px; top: 474px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 384.97px; top: 489.43px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 80.52px; top: 647.26px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 92.13px; top: 639.58px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 68.76px; top: 655px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 396.73px; top: 647.26px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 408.34px; top: 639.58px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 384.97px; top: 655px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 80.52px; top: 812.83px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 92.13px; top: 805.15px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 68.76px; top: 820.57px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 396.73px; top: 812.83px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 408.34px; top: 805.15px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 384.97px; top: 820.57px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 80.52px; top: 978.41px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 92.13px; top: 970.72px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 68.76px; top: 986.15px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 396.73px; top: 978.41px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 408.34px; top: 970.72px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 384.97px; top: 986.15px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 80.52px; top: 1143.98px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 92.13px; top: 1136.29px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 68.76px; top: 1151.72px; position: absolute; background: white"></div>
+                        <div style="width: 392.72px; height: 126.49px; left: 396.73px; top: 1143.98px; position: absolute; background: white"></div>
+                        <div style="width: 369.49px; height: 141.85px; left: 408.34px; top: 1136.29px; position: absolute; background: white"></div>
+                        <div style="width: 416.81px; height: 111.01px; left: 384.97px; top: 1151.72px; position: absolute; background: white"></div>
+                        <img style="width: 124.06px; height: 127.15px; left: 100px; top: 312.60px; position: absolute; transform:; transform-origin: top left" src="img/profil 7.png" />
+                        <img style="width: 124.06px; height: 127.15px; left: 100px; top: 478.17px; position: absolute; transform:; transform-origin: top left" src="img/profil 7.png" />
+                        <img style="width: 124.06px; height: 127.15px; left: 100px; top: 643.75px; position: absolute; transform:; transform-origin: top left" src="img/profil 7.png" />
+                        <img style="width: 124.06px; height: 127.15px; left: 100px; top: 809.32px; position: absolute; transform:; transform-origin: top left" src="img/profil 7.png" />
+                        <img style="width: 124.06px; height: 127.15px; left: 100px; top: 974.89px; position: absolute; transform:; transform-origin: top left" src="img/profil 7.png" />
+                        <img style="width: 124.06px; height: 127.15px; left: 100px; top: 1140.46px; position: absolute; transform:; transform-origin: top left" src="img/profil 7.png" />
+                        <div style="width: 401px; left: 254.99px; top: 343.51px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 48px; font-family: Symtext; font-weight: 400; word-wrap: break-word">Sabina Laiqa</div>
+                        <div style="width: 636px; height: 81px; left: 114.99px; top: 62.51px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 64px; font-family: Symtext; font-weight: 400; word-wrap: break-word">OTHER PLAYERS</div>
+                        <div style="width: 401px; left: 254.99px; top: 509.51px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 48px; font-family: Symtext; font-weight: 400; word-wrap: break-word">Sabina Laiqa</div>
+                        <div style="width: 424px; left: 254.99px; top: 674.51px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 48px; font-family: Symtext; font-weight: 400; word-wrap: break-word">Sabina Laiqa</div>
+                        <div style="width: 424px; left: 254.99px; top: 840.51px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 48px; font-family: Symtext; font-weight: 400; word-wrap: break-word">Sabina Laiqa</div>
+                        <div style="width: 424px; left: 254.99px; top: 1006.51px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 48px; font-family: Symtext; font-weight: 400; word-wrap: break-word">Sabina Laiqa</div>
+                        <div style="width: 424px; left: 254.99px; top: 1171.51px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 48px; font-family: Symtext; font-weight: 400; word-wrap: break-word">Sabina Laiqa</div>
+                    </div>            
+
+                <!-- Stopmotion Layer (Background) -->
+                    <div id="stopMode" class="layer-stopmotion" style="position: absolute; left: 0px; top: 0px; width: 0%; height: 100%; z-index: 1;">
+                        <div style="width: 1594px; height: 1251px; left: 2601px; top: 1412px; position: absolute; transform: rotate(180deg); transform-origin: top left; background: white"></div>
+                        <div style="width: 824px; height: 161px; left: 2601px; top: 161px; position: absolute; transform: rotate(180deg); transform-origin: top left; background: white"></div>
+                        <img style="width: 685px; height: 514px; left: 1080px; top: 242.46px; position: absolute; border: 5px #1D47F5 solid" src="img/stopmotion-1.png" />
+                        <img style="width: 685px; height: 514px; left: 1841px; top: 242.46px; position: absolute; border: 5px #1D47F5 solid" src="img/stopmotion-2.png" />
+                        <img style="width: 685px; height: 514px; left: 1080px; top: 808.46px; position: absolute; border: 5px #1D47F5 solid" src="img/stopmotion-3.png" />
+                        <img style="width: 685px; height: 514px; left: 1841px; top: 808.46px; position: absolute; border: 5px #1D47F5 solid" src="img/stopmotion-4.png" />
+                        <div style="width: 230.98px; height: 230.98px; left: 1970.01px; top: 127.25px; position: absolute; transform: rotate(123deg); transform-origin: top left; background: white"></div>
+                        <div>
+                            <button id="btnDraw" style="border: none; background: none; width: 685px; height: 72px; left: 1059px; top: 55px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word">DRAW MODE</button>
+                        </div>
+                        <div style="border: none; background: none; height: 71px; left: 1900.05px; top: 56px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word; white-space: nowrap;" >
+                            STOPMOTION MODE
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Draw Layer (Foreground) -->
+                    <div id="drawMode" class="layer-draw" style="position: absolute; left: 0px; top: 0px; width: 0%; height: 100%; z-index: 2;">
+                        <div style="width: 1594px; height: 1251px; left: 1006.69px; top: 161px; position: absolute; background: #1D47F5"></div>
+                        <div style="width: 770px; height: 161px; left: 1007px; top: 0px; position: absolute; background: #1D47F5"></div>
+                        <div style="width: 230.98px; height: 230.98px; left: 1776.76px; top: 1px; position: absolute; transform: rotate(57deg); transform-origin: top left; background: #1D47F5"></div>
+                        <img style="width: 685px; height: 514px; left: 1080.69px; top: 242px; position: absolute" src="img/gallery/g1.png" />
+                        <img style="width: 685px; height: 514px; left: 1840.69px; top: 242px; position: absolute" src="img/gallery/g2.png" />
+                        <img style="width: 685px; height: 514px; left: 1080.69px; top: 808px; position: absolute" src="img/gallery/g3.png" />
+                        <img style="width: 685px; height: 514px; left: 1841.69px; top: 808px; position: absolute" src="img/gallery/g4.png" />
+                        <div>
+                            <button id="btnStop" style="border: none; background: none; height: 71px; left: 1900.05px; top: 56px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #1D47F5; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word; white-space: nowrap;">STOPMOTION MODE</button>
+                        </div>
+                        <div style="width: 685px; height: 72px; left: 1059px; top: 55px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 56.47px; font-family: Symtext; font-weight: 400; word-wrap: break-word">DRAW MODE</div>
+                    </div>
+                    <div style="width: 865.59px; height: 0px; left: 0px; top: 198.99px; position: absolute; outline: 9px white solid; outline-offset: -4.50px"></div>
+                </div>
             </div>
         </div>
 
+        <script src="js/scriipt.js"></script>
+
         <!-- Page 4: VOTE -->
         <div class="page-section" data-page="vote">
-            <div class="placeholder-page">
-                <h2>Vote</h2>
-                <p>Page coming soon</p>
+            <div class="vote-container" style="position: relative; width: 2414.52px; height: 1467.16px; transform: scale(0.35); transform-origin: center center; left: 50%; top: 50%; margin-left: -1207px; margin-top: -734px;">
+                <div style="width: 1731.20px; height: 655.08px; left: 344.47px; top: 39.80px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 1628.80px; height: 734.68px; left: 395.67px; top: 0px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 1837.41px; height: 574.91px; left: 292.63px; top: 79.89px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 1731.20px; height: 655.08px; left: 344.47px; top: 456.12px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 1628.80px; height: 734.68px; left: 395.67px; top: 416.32px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 1837.41px; height: 574.91px; left: 292.63px; top: 496.21px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 1668.98px; height: 271px; left: 383px; top: 1196.16px; position: absolute; background: #1D47F5"></div>
+                <img style="width: 1628.80px; height: 886.64px; left: 396.93px; top: 132.88px; position: absolute" src="img/gallery/g1.png" />
             </div>
         </div>
 
         <!-- Page 5: LEADERBOARD -->
         <div class="page-section" data-page="leaderboard">
-            <div class="placeholder-page">
-                <h2>Leaderboard</h2>
-                <p>Page coming soon</p>
+            <div class="leaderboard-container" style="position: relative; width: 2567.48px; height: 1410.95px; transform: scale(0.35); transform-origin: center center; left: 50%; top: 50%; margin-left: -1284px; margin-top: -705px;">
+                <div style="width: 1926.07px; height: 1180.12px; left: 641.41px; top: 230.83px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 890.01px; height: 1444.55px; left: 1444.55px; top: 54.75px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 949.60px; height: 1384.34px; left: 1414.44px; top: 24.95px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 999.51px; height: 1317.73px; left: 1381.14px; top: 0px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 890.01px; height: 1444.55px; left: 1926.07px; top: 54.75px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 949.60px; height: 1384.34px; left: 1895.96px; top: 24.95px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 999.51px; height: 1317.73px; left: 1862.66px; top: 0px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 890.01px; height: 1444.55px; left: 2085.96px; top: 54.75px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 949.60px; height: 1384.34px; left: 2055.86px; top: 24.95px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 999.51px; height: 1317.73px; left: 2022.55px; top: 0px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 890.01px; height: 1444.55px; left: 2567.48px; top: 54.75px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 949.60px; height: 1384.34px; left: 2537.37px; top: 24.95px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 999.51px; height: 1317.73px; left: 2504.07px; top: 0px; position: absolute; transform: rotate(90deg); transform-origin: top left; background: #1D47F5"></div>
+                <div style="width: 1926.07px; height: 1180.12px; left: 1.75px; top: 230.83px; position: absolute; background: #1D47F5"></div>
+                <img style="width: 791px; height: 467px; left: 63.74px; top: 280.05px; position: absolute; border: 15px #D0FE54 solid" src="img/gallery/g1.png" />
+                <img style="width: 791px; height: 467px; left: 890.74px; top: 280.05px; position: absolute; border: 15px #D0FE54 solid" src="img/gallery/g2.png" />
+                <img style="width: 791px; height: 467px; left: 1711.74px; top: 280.05px; position: absolute; border: 15px #D0FE54 solid" src="img/gallery/g3.png" />
+                <img style="width: 791px; height: 467px; left: 63.74px; top: 838.05px; position: absolute; border: 15px #D0FE54 solid" src="img/gallery/g4.png" />
+                <img style="width: 791px; height: 467px; left: 890.74px; top: 838.05px; position: absolute; border: 15px #D0FE54 solid" src="img/gallery/g1.png" />
+                <img style="width: 791px; height: 467px; left: 1711.74px; top: 838.05px; position: absolute; border: 15px #D0FE54 solid" src="img/gallery/g2.png" />
+                <div style="width: 2491.12px; height: 233.02px; left: 38.18px; top: 24.95px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: #D0FE54; font-size: 78.80px; font-family: Symtext; font-weight: 400; word-wrap: break-word">GLOBAL LEADERBOARD</div>
+                <div style="width: 405px; height: 151px; left: 449.74px; top: 596.05px; position: absolute; background: #D0FE54"></div>
+                <div style="width: 405px; height: 151px; left: 1276.74px; top: 596.05px; position: absolute; background: #D0FE54"></div>
+                <div style="width: 405px; height: 151px; left: 2097.74px; top: 596.05px; position: absolute; background: #D0FE54"></div>
+                <div style="width: 405px; height: 151px; left: 2097.74px; top: 1154.05px; position: absolute; background: #D0FE54"></div>
+                <div style="width: 405px; height: 151px; left: 1276.74px; top: 1157.05px; position: absolute; background: #D0FE54"></div>
+                <div style="width: 405px; height: 151px; left: 449.74px; top: 1157.05px; position: absolute; background: #D0FE54"></div>
+                <div style="width: 221.62px; height: 114.43px; left: 611.47px; top: 614.33px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 221.62px; height: 114.43px; left: 611.47px; top: 1175.33px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 221.62px; height: 114.43px; left: 1445.68px; top: 1175.33px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 221.62px; height: 114.43px; left: 1444.55px; top: 623.64px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 221.62px; height: 114.43px; left: 2261.33px; top: 614.33px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 221.62px; height: 114.43px; left: 2259.47px; top: 1172.33px; position: absolute; background: #1D47F5"></div>
+                <div style="width: 703.10px; height: 85.68px; left: 375.69px; top: 628.71px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 76.08px; font-family: Symtext; font-weight: 400; word-wrap: break-word">87</div>
+                <div style="width: 703.10px; height: 85.68px; left: 375.69px; top: 1186.71px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 76.08px; font-family: Symtext; font-weight: 400; word-wrap: break-word">72</div>
+                <div style="width: 703.10px; height: 85.68px; left: 1214.15px; top: 1186.71px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 76.08px; font-family: Symtext; font-weight: 400; word-wrap: break-word">61</div>
+                <div style="width: 703.10px; height: 85.68px; left: 1203.79px; top: 634.25px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 76.08px; font-family: Symtext; font-weight: 400; word-wrap: break-word">80</div>
+                <div style="width: 220px; height: 86px; left: 2261.55px; top: 624.24px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 76.08px; font-family: Symtext; font-weight: 400; word-wrap: break-word">75</div>
+                <div style="width: 222px; height: 86px; left: 2259.55px; top: 1189.24px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 76.08px; font-family: Symtext; font-weight: 400; word-wrap: break-word">50</div>
             </div>
         </div>
     </section>
@@ -1974,6 +1145,51 @@
                 setTimeout(checkAndInitCanvas, 400);
             });
         });
+
+        // Gallery Layer Switcher Logic
+        const galleryContainer = document.getElementById('galleryContainer');
+        const layerStopmotion = document.querySelector('.layer-stopmotion');
+        const layerDraw = document.querySelector('.layer-draw');
+        let isDrawOnTop = true;
+
+        function swapGalleryLayers() {
+            isDrawOnTop = !isDrawOnTop;
+            
+            if (isDrawOnTop) {
+                layerDraw.style.zIndex = '20';
+                layerStopmotion.style.zIndex = '10';
+            } else {
+                layerDraw.style.zIndex = '10';
+                layerStopmotion.style.zIndex = '20';
+            }
+        }
+
+        // Handle click on stopmotion layer - when draw is on top and stopmotion area is visible
+        if (layerStopmotion) {
+            layerStopmotion.addEventListener('click', function(e) {
+                if (isDrawOnTop) {
+                    console.log('Click on Stopmotion visible area - swapping layers');
+                    swapGalleryLayers();
+                }
+            });
+        }
+
+        // Handle click on draw layer - when stopmotion is on top and draw area is visible
+        if (layerDraw) {
+            layerDraw.addEventListener('click', function(e) {
+                if (!isDrawOnTop) {
+                    console.log('Click on Draw visible area - swapping layers back');
+                    swapGalleryLayers();
+                }
+            });
+        }
+
+        // Initialize: Draw on top
+        if (layerDraw && layerStopmotion) {
+            layerDraw.style.zIndex = '20';
+            layerStopmotion.style.zIndex = '10';
+        }
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
