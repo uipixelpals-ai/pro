@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gartic Canvas Final - 2026 Edition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; top: 500px; background: none; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .page-section { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+        .draw-section { position: relative; width: 2747.81px; height: 1366.29px; transform: scale(0.32); transform-origin: center center; left: 50%; top: 50%; margin-left: -1374px; margin-top: -683px; overflow: hidden; }
+        
+        /* Tool Button Styling */
+        .tool-btn { border: none; cursor: pointer; padding: 0; transition: all 0.2s; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .tool-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .tool-btn.active { outline: 8px solid #D0FE54; z-index: 10; }
+        
+        /* Palette Styling */
+        .color-pick { cursor: pointer; transition: transform 0.1s; border: 1px solid rgba(0,0,0,0.1); }
+        .color-pick:hover { transform: scale(1.1); outline: 4px solid white; z-index: 5; }
+
+        /* Slider Styling */
+        #brushSlider { -webkit-appearance: none; width: 100%; height: 20px; background: #ddd; border-radius: 10px; cursor: pointer; }
+        #brushSlider::-webkit-slider-thumb { -webkit-appearance: none; width: 45px; height: 45px; background: #1D47F5; border-radius: 50%; border: 3px solid white; }
+        
+        #hiddenColorPicker { position: absolute; visibility: hidden; }
+    </style>
+</head>
+<body>
+
+<div class="page-section" data-page="draw">
+    <div class="draw-section" style="position: relative; width: 2747.81px; height: 1366.29px; transform: scale(0.32); transform-origin: center center; left: 50%; top: 50%; margin-left: -1374px; margin-top: -683px;">
+        
+        <div style="width: 437px; height: 113.29px; left: 1721px; top: 1253px; position: absolute; background: #1D47F5"></div>
+        <div style="width: 1079px; height: 113.29px; left: 604px; top: 1253px; position: absolute; background: #1D47F5"></div>
+        
+        <div style="width: 990px; height: 50px; left: 650px; top: 1285px; position: absolute; display: flex; align-items: center; z-index: 100;">
+            <input type="range" id="brushSlider" min="1" max="150" value="15">
+        </div>
+
+        <div id="btnSave" style="width: 855.22px; height: 80px; left: 1511.89px; top: 1269.65px; position: absolute; text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 68.57px; font-family: sans-serif; font-weight: bold; cursor: pointer; z-index: 100;">SAVE</div>
+        
+        <div style="width: 445px; height: 1022px; left: 2302.81px; top: 92px; position: absolute; background: #D0FE54"></div>
+        
+        <button class="tool-btn active" id="btnBrush" style="width: 173px; height: 173px; left: 2337.81px; top: 134px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-brush.png.png"></button>
+        <button class="tool-btn" id="btnEraser" style="width: 173px; height: 173px; left: 2539.81px; top: 134px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-eraser.png.png"></button>
+        
+        <button class="tool-btn" id="btnRect" style="width: 173px; height: 173px; left: 2337.81px; top: 338px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-shapes.png.png"></button>
+        <button class="tool-btn" id="btnText" style="width: 173px; height: 173px; left: 2539.81px; top: 338px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-text.png.png"></button>
+        
+        <button class="tool-btn" id="btnColorPicker" style="width: 173px; height: 173px; left: 2337.81px; top: 542px; position: absolute; background: #1D47F5; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <img src="../img/draw/tool-picker.png.png" style="width: 80px; height: 80px;">
+            <span style="color: white; font-size: 16px; margin-top: 5px;"></span>
+        </button>
+        <button class="tool-btn" id="btnFill" style="width: 173px; height: 173px; left: 2539.81px; top: 542px; position: absolute; background: #1D47F5; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <img src="../img/draw/tool-fill.png.png" style="width: 80px; height: 80px;">
+            <span style="color: white; font-size: 16px; margin-top: 5px;"></span>
+        </button>
+        
+        <button class="tool-btn" id="btnUndo" style="width: 173px; height: 173px; left: 2337.81px; top: 746px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-undo.png.png"></button>
+        <button class="tool-btn" id="btnRedo" style="width: 173px; height: 173px; left: 2539.81px; top: 746px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-redo.png.png"></button>
+
+        <div style="width: 1554px; height: 979px; left: 608px; top: 92px; position: absolute; background: white; border: 4px black solid; overflow: hidden;">
+            <canvas id="drawingCanvas"></canvas>
+        </div>
+
+        <div style="width: 445px; height: 1022px; left: 0px; top: 109px; position: absolute; background: white"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 35px; top: 141px; position: absolute; background: #CE2029"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 169px; top: 141px; position: absolute; background: #ED2027"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 303px; top: 141px; position: absolute; background: #F8A4AB"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 35px; top: 270px; position: absolute; background: #0F8B43"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 169px; top: 270px; position: absolute; background: #3AB548"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 303px; top: 270px; position: absolute; background: #A7D49A"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 35px; top: 399px; position: absolute; background: #E4E41C"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 169px; top: 399px; position: absolute; background: #F4EA33"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 303px; top: 399px; position: absolute; background: #FFE3A9"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 35px; top: 528px; position: absolute; background: #512C79"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 169px; top: 528px; position: absolute; background: #733E98"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 303px; top: 528px; position: absolute; background: #BB97C6"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 35px; top: 657px; position: absolute; background: #0E6B99"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 169px; top: 657px; position: absolute; background: #1675BA"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 303px; top: 657px; position: absolute; background: #98CDE9"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 35px; top: 786px; position: absolute; background: #A22067"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 169px; top: 786px; position: absolute; background: #CC1D8B"></div>
+        <div class="color-pick" style="width: 107px; height: 107px; left: 303px; top: 786px; position: absolute; background: #E99CC4"></div>
+
+        <div id="btnCentralColor" class="color-pick" style="width: 173px; height: 173px; left: 35px; top: 915px; position: absolute; background: white; border: 4px black solid; display: flex; align-items: center; justify-content: center;">
+            <div id="brushIndicator" style="width: 15px; height: 15px; background: black; border-radius: 50%;"></div>
+            <input type="color" id="hiddenColorPicker">
+        </div>
+
+        <div id="btnStrokeToggle" class="tool-btn" style="width: 173px; height: 173px; left: 237px; top: 915px; position: absolute; border: 27px black solid; box-sizing: border-box; background: transparent; color: black; font-size: 18px;">STROKE OFF</div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Inisialisasi Fabric Canvas
+    const canvas = new fabric.Canvas('drawingCanvas', {
+        isDrawingMode: true,
+        width: 1554,
+        height: 979,
+        backgroundColor: 'white'
+    });
+
+    let currentSize = 15;
+    let currentColor = "#000000";
+    let redoStack = [];
+    let isStrokeMode = false;
+
+    // Default Brush
+    canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+    canvas.freeDrawingBrush.width = currentSize;
+    canvas.freeDrawingBrush.color = currentColor;
+
+    // Helper: Update UI Button State
+    function setActiveButton(id) {
+        document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    // Helper: Update Color & Indicators
+    function updateGlobalColor(color) {
+        currentColor = color;
+        canvas.freeDrawingBrush.color = color;
+        document.getElementById('brushIndicator').style.background = color;
+        
+        const activeObj = canvas.getActiveObject();
+        if (activeObj) {
+            if (isStrokeMode && activeObj.type === 'rect') {
+                activeObj.set({ stroke: color });
+            } else {
+                activeObj.set({ fill: color });
+            }
+            canvas.renderAll();
+        }
+    }
+
+    // --- LOGIKA TOOLS ---
+
+    // Color Picker (Eyedropper) - Ambil warna dari pixel canvas
+    let isColorPickerActive = false;
+    document.getElementById('btnColorPicker').addEventListener('click', () => {
+        isColorPickerActive = !isColorPickerActive;
+        setActiveButton('btnColorPicker');
+        canvas.isDrawingMode = false;
+        canvas.defaultCursor = isColorPickerActive ? 'crosshair' : 'default';
+    });
+
+    canvas.on('mouse:down', function(opt) {
+        if (isColorPickerActive) {
+            const pointer = canvas.getPointer(opt.e);
+            const x = Math.floor(pointer.x);
+            const y = Math.floor(pointer.y);
+            
+            // Ambil dari upper canvas (drawing layer)
+            const ctx = canvas.getContext();
+            if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+                const imgData = ctx.getImageData(x, y, 1, 1).data;
+                const hex = rgbToHex(imgData[0], imgData[1], imgData[2]);
+                currentColor = hex;
+                canvas.freeDrawingBrush.color = currentColor;
+                document.getElementById('brushIndicator').style.background = hex;
+            }
+            
+            isColorPickerActive = false;
+            document.getElementById('btnColorPicker').classList.remove('active');
+            canvas.defaultCursor = 'default';
+        }
+    });
+
+    // Helper: RGB to Hex
+    function rgbToHex(r, g, b) {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
+    // Bucket Fill Tool - Flood Fill Iterative
+    document.getElementById('btnFill').addEventListener('click', () => {
+        setActiveButton('btnFill');
+    });
+
+    canvas.on('mouse:down', function(opt) {
+        if (document.getElementById('btnFill').classList.contains('active')) {
+            const pointer = canvas.getPointer(opt.e);
+            const startX = Math.floor(pointer.x);
+            const startY = Math.floor(pointer.y);
+            
+            const ctx = canvas.getContext();
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imgData.data;
+            
+            const targetColor = getPixelColor(pixels, startX, startY, canvas.width);
+            const fillColor = hexToRgb(currentColor);
+            const tolerance = 32;
+            
+            if (colorsMatch(targetColor, fillColor, 0)) return;
+            
+            floodFill(pixels, canvas.width, canvas.height, startX, startY, targetColor, fillColor, tolerance);
+            
+            ctx.putImageData(imgData, 0, 0);
+        }
+    });
+
+    function getPixelColor(pixels, x, y, width) {
+        const i = (y * width + x) * 4;
+        return { r: pixels[i], g: pixels[i+1], b: pixels[i+2] };
+    }
+
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : { r: 0, g: 0, b: 0 };
+    }
+
+    function colorsMatch(c1, c2, tolerance) {
+        return Math.abs(c1.r - c2.r) <= tolerance &&
+               Math.abs(c1.g - c2.g) <= tolerance &&
+               Math.abs(c1.b - c2.b) <= tolerance;
+    }
+
+    // Flood Fill - Iterative (Stack-based, bukan recursive)
+    function floodFill(pixels, width, height, startX, startY, targetColor, fillColor, tolerance) {
+        const stack = [[startX, startY]];
+        
+        while (stack.length > 0) {
+            const [x, y] = stack.pop();
+            
+            if (x < 0 || x >= width || y < 0 || y >= height) continue;
+            
+            const currentColor = getPixelColor(pixels, x, y, width);
+            if (!colorsMatch(currentColor, targetColor, tolerance)) continue;
+            
+            const i = (y * width + x) * 4;
+            pixels[i] = fillColor.r;
+            pixels[i+1] = fillColor.g;
+            pixels[i+2] = fillColor.b;
+            pixels[i+3] = 255;
+            
+            stack.push([x + 1, y]);
+            stack.push([x - 1, y]);
+            stack.push([x, y + 1]);
+            stack.push([x, y - 1]);
+        }
+    }
+
+    // Brush Tool
+    document.getElementById('btnBrush').addEventListener('click', () => {
+        setActiveButton('btnBrush');
+        canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.color = currentColor;
+    });
+
+    // Eraser Tool
+    document.getElementById('btnEraser').addEventListener('click', () => {
+        setActiveButton('btnEraser');
+        canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.color = "#ffffff";
+    });
+
+    // Rectangle Tool
+    document.getElementById('btnRect').addEventListener('click', () => {
+        setActiveButton('btnRect');
+        canvas.isDrawingMode = false;
+        const rect = new fabric.Rect({
+            left: 200, top: 200,
+            width: 300, height: 200,
+            fill: currentColor,
+            stroke: isStrokeMode ? currentColor : null,
+            strokeWidth: isStrokeMode ? currentSize : 0,
+            cornerSize: 20,
+            cornerColor: '#1D47F5'
+        });
+        canvas.add(rect);
+        canvas.setActiveObject(rect);
+    });
+
+    // Text Tool
+    document.getElementById('btnText').addEventListener('click', () => {
+        setActiveButton('btnText');
+        canvas.isDrawingMode = false;
+        const text = new fabric.IText('Teks Baru', {
+            left: 200, top: 200,
+            fill: currentColor,
+            fontSize: currentSize * 3
+        });
+        canvas.add(text);
+        canvas.setActiveObject(text);
+    });
+
+    // Stroke Toggle Logic (ON/OFF)
+    const strokeBtn = document.getElementById('btnStrokeToggle');
+    strokeBtn.addEventListener('click', () => {
+        isStrokeMode = !isStrokeMode;
+        if (isStrokeMode) {
+            strokeBtn.style.borderColor = "#D0FE54";
+            strokeBtn.innerText = "STROKE ON";
+        } else {
+            strokeBtn.style.borderColor = "black";
+            strokeBtn.innerText = "STROKE OFF";
+        }
+        
+        const activeObj = canvas.getActiveObject();
+        if (activeObj && activeObj.type === 'rect') {
+            if (isStrokeMode) {
+                activeObj.set({ stroke: currentColor, strokeWidth: currentSize });
+            } else {
+                activeObj.set({ stroke: null, strokeWidth: 0 });
+            }
+            canvas.renderAll();
+        }
+    });
+
+    // Central Color Picker
+    const centralBtn = document.getElementById('btnCentralColor');
+    const colorInput = document.getElementById('hiddenColorPicker');
+    centralBtn.addEventListener('click', () => colorInput.click());
+    colorInput.addEventListener('input', (e) => updateGlobalColor(e.target.value));
+
+    // Palette Click
+    document.querySelectorAll('.color-pick:not(#btnCentralColor)').forEach(p => {
+        p.addEventListener('click', function() {
+            updateGlobalColor(window.getComputedStyle(this).backgroundColor);
+        });
+    });
+
+    // Undo & Redo
+    document.getElementById('btnUndo').addEventListener('click', () => {
+        const objects = canvas.getObjects();
+        if (objects.length > 0) {
+            redoStack.push(objects.pop());
+            canvas.remove(redoStack[redoStack.length - 1]);
+        }
+    });
+
+    document.getElementById('btnRedo').addEventListener('click', () => {
+        if (redoStack.length > 0) {
+            canvas.add(redoStack.pop());
+        }
+    });
+
+    // Slider Size Sync
+    document.getElementById('brushSlider').addEventListener('input', function() {
+        currentSize = parseInt(this.value);
+        canvas.freeDrawingBrush.width = currentSize;
+        const ind = document.getElementById('brushIndicator');
+        ind.style.width = (currentSize/1.5 + 5) + "px";
+        ind.style.height = (currentSize/1.5 + 5) + "px";
+    });
+
+    // Fix Coordinate Offset (Karena transform: scale)
+    canvas.on('mouse:down', () => canvas.calcOffset());
+
+    // Save Image
+    document.getElementById('btnSave').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = 'gartic-drawing.png';
+        link.href = canvas.toDataURL({ format: 'png' });
+        link.click();
+    });
+
+    
+
+});
+</script>
+</body>
+</html>
