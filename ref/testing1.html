@@ -6,27 +6,172 @@
     <title>Gartic Canvas Final - 2026 Edition</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; top: 500px; background: none; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        .page-section { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
-        .draw-section { position: relative; width: 2747.81px; height: 1366.29px; transform: scale(0.32); transform-origin: center center; left: 50%; top: 50%; margin-left: -1374px; margin-top: -683px; overflow: hidden; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: none; overflow: hidden; }
+        .page-section { 
+            width: 100vw; 
+            height: 100vh; 
+            position: relative; 
+            overflow: hidden;
+        }
+        .draw-section { 
+            position: absolute; 
+            width: 2747.81px; 
+            height: 1366.29px; 
+            transform: translate(-50%, -50%) scale(0.32);
+            transform-origin: center center;
+            left: 50%;
+            top: 50%;
+            overflow: hidden;
+            pointer-events: none;
+            will-change: transform;
+        }
+        
+        .draw-section > * {
+            pointer-events: auto;
+            position: absolute;
+            transform: translateZ(0);
+        }
+        
+        /* Canvas wrapper - LOCK all dimensions */
+        #canvasWrapper {
+            position: absolute;
+            width: 1554px;
+            height: 979px;
+            left: 608px;
+            top: 92px;
+            overflow: hidden !important;
+            box-sizing: border-box;
+            border: 4px solid black;
+            background: white;
+            z-index: 1;
+            flex: none;
+            min-width: 0;
+            min-height: 0;
+        }
+        
+        #canvasWrapper .canvas-container {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 1554px !important;
+            height: 979px !important;
+            max-width: none !important;
+            max-height: none !important;
+        }
+        
+        #canvasWrapper .upper-canvas,
+        #canvasWrapper .lower-canvas {
+            width: 1554px !important;
+            height: 979px !important;
+            max-width: none !important;
+        }
+        .draw-section { 
+            position: absolute; 
+            width: 2747.81px; 
+            height: 1366.29px; 
+            transform: translate(-50%, -50%) scale(0.32);
+            transform-origin: center center;
+            left: 50%;
+            top: 50%;
+            overflow: visible;
+            pointer-events: none;
+        }
+        
+        .draw-section > * {
+            pointer-events: auto;
+        }
+        
+        /* Canvas wrapper fixed - tidak terpengaruh child */
+        #canvasWrapper {
+            position: absolute;
+            width: 1554px;
+            height: 979px;
+            left: 608px;
+            top: 92px;
+            overflow: hidden;
+            box-sizing: border-box;
+            border: 4px solid black;
+            background: white;
+            z-index: 1;
+            overflow: hidden !important;
+        }
+        
+        #canvasWrapper .canvas-container {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 1554px !important;
+            height: 979px !important;
+        }
+        
+        #canvasWrapper .upper-canvas {
+            width: 1554px !important;
+            height: 979px !important;
+        }
+        
+        #canvasWrapper .lower-canvas {
+            width: 1554px !important;
+            height: 979px !important;
+        }
+        
+        /* Custom Text Edit Modal */
+        #textEditModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 3px solid #1D47F5;
+            border-radius: 10px;
+            z-index: 999999;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        #textEditModal textarea {
+            width: 300px;
+            height: 100px;
+            font-size: 18px;
+            padding: 10px;
+            border: 2px solid #1D47F5;
+            border-radius: 5px;
+            font-family: 'Segoe UI', sans-serif;
+            resize: none;
+        }
+        #textEditModal .btn-save {
+            margin-top: 10px;
+            padding: 10px 30px;
+            background: #1D47F5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
         
         /* Tool Button Styling */
-        .tool-btn { border: none; cursor: pointer; padding: 0; transition: all 0.2s; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .tool-btn { border: none; cursor: pointer; padding: 0; transition: all 0.2s; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); position: absolute; }
         .tool-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
         .tool-btn.active { outline: 8px solid #D0FE54; z-index: 10; }
         
         /* Palette Styling */
-        .color-pick { cursor: pointer; transition: transform 0.1s; border: 1px solid rgba(0,0,0,0.1); }
+        .color-pick { cursor: pointer; transition: transform 0.1s; border: 1px solid rgba(0,0,0,0.1); position: absolute; }
         .color-pick:hover { transform: scale(1.1); outline: 4px solid white; z-index: 5; }
 
         /* Slider Styling */
-        #brushSlider { -webkit-appearance: none; width: 100%; height: 20px; background: #ddd; border-radius: 10px; cursor: pointer; }
+        #brushSlider { -webkit-appearance: none; width: 100%; height: 20px; background: #ddd; border-radius: 10px; cursor: pointer; position: absolute; }
         #brushSlider::-webkit-slider-thumb { -webkit-appearance: none; width: 45px; height: 45px; background: #1D47F5; border-radius: 50%; border: 3px solid white; }
         
         #hiddenColorPicker { position: absolute; visibility: hidden; }
     </style>
 </head>
 <body>
+
+<!-- Custom Text Edit Modal -->
+<div id="textEditModal">
+    <textarea id="textEditArea" placeholder="Ketik teks..."></textarea>
+    <button class="btn-save" id="btnSaveText">SAVE</button>
+</div>
 
 <div class="page-section" data-page="draw">
     <div class="draw-section" style="position: relative; width: 2747.81px; height: 1366.29px; transform: scale(0.32); transform-origin: center center; left: 50%; top: 50%; margin-left: -1374px; margin-top: -683px;">
@@ -60,8 +205,8 @@
         <button class="tool-btn" id="btnUndo" style="width: 173px; height: 173px; left: 2337.81px; top: 746px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-undo.png.png"></button>
         <button class="tool-btn" id="btnRedo" style="width: 173px; height: 173px; left: 2539.81px; top: 746px; position: absolute; background: #1D47F5"><img src="../img/draw/tool-redo.png.png"></button>
 
-        <div style="width: 1554px; height: 979px; left: 608px; top: 92px; position: absolute; background: white; border: 4px black solid; overflow: hidden;">
-            <canvas id="drawingCanvas"></canvas>
+        <div id="canvasWrapper">
+            <canvas id="drawingCanvas" style="display: block;"></canvas>
         </div>
 
         <div style="width: 445px; height: 1022px; left: 0px; top: 109px; position: absolute; background: white"></div>
@@ -95,13 +240,67 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Inisialisasi Fabric Canvas
+    // 1. Inisialisasi Fabric Canvas dengan fixed size
     const canvas = new fabric.Canvas('drawingCanvas', {
         isDrawingMode: true,
         width: 1554,
         height: 979,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        selection: true,
+        preserveObjectStacking: true
     });
+
+    // Matikan semua text editing internal fabric.js
+    fabric.Object.prototype.noScaleCache = true;
+    fabric.IText.prototype.editable = false;
+    
+    // Override _styleProperties untuk disable editable
+    const originalSet = fabric.IText.prototype.set;
+    fabric.IText.prototype.set = function(key, value) {
+        if (key === 'editable') return this;
+        return originalSet.call(this, key, value);
+    };
+
+    // Kunci ukuran canvas
+    canvas.setDimensions({ width: 1554, height: 979 });
+    
+    // Fix canvas container size
+    setTimeout(() => {
+        const container = document.querySelector('#canvasWrapper');
+        if (container) {
+            const cc = container.querySelector('.canvas-container');
+            if (cc) {
+                cc.style.width = '1554px';
+                cc.style.height = '979px';
+            }
+        }
+    }, 100);
+
+    // Constrain objects - tapi izinkan objek besar digeser dalam canvas
+    canvas.on('object:moving', function(e) {
+        const obj = e.target;
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        
+        const objWidth = obj.getScaledWidth();
+        const objHeight = obj.getScaledHeight();
+        
+        // Izinkan objek digeser asal masih ada bagian dalam canvas
+        const minX = -objWidth + 50; // Biarkan 50px keluar
+        const maxX = canvasWidth - 50;
+        const minY = -objHeight + 50;
+        const maxY = canvasHeight - 50;
+        
+        if (obj.left < minX) obj.left = minX;
+        if (obj.left > maxX) obj.left = maxX;
+        if (obj.top < minY) obj.top = minY;
+        if (obj.top > maxY) obj.top = maxY;
+    });
+
+    // Prevent canvas element dari resize
+    const canvasEl = canvas.getElement();
+    canvasEl.style.width = '1554px';
+    canvasEl.style.height = '979px';
 
     let currentSize = 15;
     let currentColor = "#000000";
@@ -277,17 +476,58 @@ document.addEventListener("DOMContentLoaded", function() {
         canvas.setActiveObject(rect);
     });
 
-    // Text Tool
+    // Text Tool - Custom modal edit (tidak merusak UI)
+    let currentEditingText = null;
+    const modal = document.getElementById('textEditModal');
+    const textArea = document.getElementById('textEditArea');
+    const btnSaveText = document.getElementById('btnSaveText');
+    
     document.getElementById('btnText').addEventListener('click', () => {
         setActiveButton('btnText');
         canvas.isDrawingMode = false;
+        
         const text = new fabric.IText('Teks Baru', {
-            left: 200, top: 200,
+            left: 200,
+            top: 200,
             fill: currentColor,
-            fontSize: currentSize * 3
+            fontSize: currentSize * 3,
+            fontFamily: 'Segoe UI'
         });
         canvas.add(text);
         canvas.setActiveObject(text);
+        
+        // Langsung buka modal untuk edit
+        openTextModal(text);
+    });
+    
+    // Klik pada teks existing - buka modal
+    canvas.on('mouse:dblclick', function(opt) {
+        if (opt.target && opt.target.type === 'i-text') {
+            openTextModal(opt.target);
+        }
+    });
+    
+    function openTextModal(textObj) {
+        currentEditingText = textObj;
+        textArea.value = textObj.text;
+        modal.style.display = 'block';
+        textArea.focus();
+    }
+    
+    // Simpan teks dari modal
+    btnSaveText.addEventListener('click', () => {
+        if (currentEditingText) {
+            currentEditingText.set({ text: textArea.value });
+            canvas.renderAll();
+        }
+        modal.style.display = 'none';
+    });
+    
+    // Tutup modal dengan ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+            modal.style.display = 'none';
+        }
     });
 
     // Stroke Toggle Logic (ON/OFF)
